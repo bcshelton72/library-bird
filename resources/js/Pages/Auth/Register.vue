@@ -9,9 +9,14 @@ import { useForm } from '@inertiajs/vue3';
 const form = useForm({
     name: '',
     email: '',
+    profile_picture: '',
     password: '',
     password_confirmation: '',
 });
+
+const change = (e) => {
+    form.profile_picture = e.target.files[0];
+}
 
 const submit = () => {
     form.post(route('register'), {
@@ -26,6 +31,14 @@ const submit = () => {
 
         <form @submit.prevent="submit">
             <div>
+                <InputLabel for="profile_picture" value="Profile Picture" />
+
+                <input type="file" id="profile_picture" @input="change" />
+
+                <InputError class="mt-2" :message="form.errors.profile_picture" />
+            </div>
+
+            <div class="mt-4">
                 <InputLabel for="name" value="Name" />
 
                 <TextInput
