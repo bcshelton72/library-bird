@@ -20,7 +20,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
                     class="overflow-hidden bg-white shadow-sm sm:rounded-lg"
                 >
                     <div class="p-6 text-gray-900">
-                        You're logged in!
+                        <h1>Welcome {{ $page.props.auth.user.name }}!</h1>
                     </div>
                 </div>
             </div>
