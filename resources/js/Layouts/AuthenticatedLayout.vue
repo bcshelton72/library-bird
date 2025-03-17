@@ -7,7 +7,6 @@ import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 
 const showingNavigationDropdown = ref(false);
-const dicebear = import.meta.env.VITE_DICEBEAR_URL
 </script>
 
 <template>
@@ -58,7 +57,7 @@ const dicebear = import.meta.env.VITE_DICEBEAR_URL
                                                     class="object-cover w-8 h-8 rounded-full ml-4"
                                                     :src="$page.props.auth.user.profile_picture
                                                         ? 'storage/' + $page.props.auth.user.profile_picture
-                                                        : dicebear + '/initials/svg?seed=' + $page.props.auth.user.name"
+                                                        : 'storage/profile_pictures/default.png'"
                                                     alt=""
                                                 />
                                             </button>

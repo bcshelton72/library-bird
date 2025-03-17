@@ -7,9 +7,9 @@ import TextInput from '@/Components/TextInput.vue';
 import { useForm } from '@inertiajs/vue3';
 
 const form = useForm({
+    profile_picture: '',
     name: '',
     email: '',
-    profile_picture: '',
     password: '',
     password_confirmation: '',
 });
