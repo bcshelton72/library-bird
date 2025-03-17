@@ -17,9 +17,14 @@ defineProps({
 const user = usePage().props.auth.user;
 
 const form = useForm({
+    profile_picture: user.profile_picture,
     name: user.name,
     email: user.email,
 });
+
+const change = (e) => {
+    form.profile_picture = e.target.files[0];
+}
 </script>
 
 <template>
@@ -35,9 +40,17 @@ const form = useForm({
         </header>
 
         <form
-            @submit.prevent="form.patch(route('profile.update'))"
+            @submit.prevent="form.post(route('profile.update'))"
             class="mt-6 space-y-6"
         >
+            <div>
+                <InputLabel for="profile_picture" value="Change Profile Picture" class="mb-1" />
+
+                <input type="file" id="profile_picture" @input="change" />
+
+                <InputError class="mt-2" :message="form.errors.profile_picture" />
+            </div>
+
             <div>
                 <InputLabel for="name" value="Name" />
 

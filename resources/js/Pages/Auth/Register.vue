@@ -31,7 +31,7 @@ const submit = () => {
 
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="profile_picture" value="Profile Picture" />
+                <InputLabel for="profile_picture" value="Profile Picture" class="mb-1" />
 
                 <input type="file" id="profile_picture" @input="change" />
 
