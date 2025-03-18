@@ -17,6 +17,9 @@ defineProps({
 const user = usePage().props.auth.user;
 
 const form = useForm({
+    preview: user.profile_picture
+        ? 'storage/' + user.profile_picture
+        : 'storage/profile_pictures/default.jpg',
     profile_picture: user.profile_picture,
     name: user.name,
     email: user.email,
@@ -24,6 +27,7 @@ const form = useForm({
 
 const change = (e) => {
     form.profile_picture = e.target.files[0];
+    form.preview = URL.createObjectURL(e.target.files[0]);
 }
 </script>
 
@@ -43,12 +47,14 @@ const change = (e) => {
             @submit.prevent="form.post(route('profile.update'))"
             class="mt-6 space-y-6"
         >
-            <div>
-                <InputLabel for="profile_picture" value="Change Profile Picture" class="mb-1" />
-
-                <input type="file" id="profile_picture" @input="change" />
-
-                <InputError class="mt-2" :message="form.errors.profile_picture" />
+            <div class="grid place-items-center">
+                <div class="relative w-28  h-28 rounded-full overflow-hidden border border-slate-300">
+                    <label for="profile_picture" class="absolute inset-0 grid content-end cursor-pointer">
+                        <span class="bg-white/70 pb-2 text-center">Profile Pic</span>
+                    </label>
+                    <input type="file" id="profile_picture" @input="change" hidden />
+                    <img class="object-cover w-28 h-28" :src="form.preview ?? 'storage/profile_pictures/default.jpg'" />
+                </div>
             </div>
 
             <div>
