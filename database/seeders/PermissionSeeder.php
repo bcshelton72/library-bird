@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -14,7 +13,7 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        $userPermissions = [
+        $customerPermissions = [
             'checkout_book',
             'create_review',
         ];
@@ -27,16 +26,16 @@ class PermissionSeeder extends Seeder
         ];
 
         // Create permissions
-        foreach (array_merge($userPermissions, $librarianPermissions) as $permission) {
+        foreach (array_merge($customerPermissions, $librarianPermissions) as $permission) {
             Permission::create([
                 'name' => $permission
             ]);
         }
 
-        // Create user role & assign permissions
-        $userRole = Role::create(['name' => 'User']);
-        foreach ($userPermissions as $permission) {
-            $userRole->givePermissionTo($permission);
+        // Create customer role & assign permissions
+        $customerRole = Role::create(['name' => 'Customer']);
+        foreach ($customerPermissions as $permission) {
+            $customerRole->givePermissionTo($permission);
         }
 
         // Create librarian role & assign permissions

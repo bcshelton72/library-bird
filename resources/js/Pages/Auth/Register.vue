@@ -3,14 +3,22 @@ import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
+import InputText from 'primevue/inputtext';
 import { useForm } from '@inertiajs/vue3';
+import Select from 'primevue/select';
+
+defineProps({
+    roles: {
+        type: Object,
+    }
+});
 
 const form = useForm({
     preview: null,
     profile_picture: '',
     name: '',
     email: '',
+    role: '',
     password: '',
     password_confirmation: '',
 });
@@ -45,7 +53,7 @@ const submit = () => {
             <div class="mt-4">
                 <InputLabel for="name" value="Name" />
 
-                <TextInput
+                <InputText
                     id="name"
                     type="text"
                     class="mt-1 block w-full"
@@ -61,7 +69,7 @@ const submit = () => {
             <div class="mt-4">
                 <InputLabel for="email" value="Email" />
 
-                <TextInput
+                <InputText
                     id="email"
                     type="email"
                     class="mt-1 block w-full"
@@ -74,9 +82,25 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
+                <InputLabel for="role" value="Role" />
+
+                <Select
+                    id="role"
+                    v-model="form.role"
+                    :options="roles"
+                    optionLabel="name"
+                    optionValue="name"
+                    placeholder="Select a Role"
+                    class="mt-1 block w-full md:w-56 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                />
+
+                <InputError class="mt-2" :message="form.errors.role" />
+            </div>
+
+            <div class="mt-4">
                 <InputLabel for="password" value="Password" />
 
-                <TextInput
+                <InputText
                     id="password"
                     type="password"
                     class="mt-1 block w-full"
@@ -94,7 +118,7 @@ const submit = () => {
                     value="Confirm Password"
                 />
 
-                <TextInput
+                <InputText
                     id="password_confirmation"
                     type="password"
                     class="mt-1 block w-full"
