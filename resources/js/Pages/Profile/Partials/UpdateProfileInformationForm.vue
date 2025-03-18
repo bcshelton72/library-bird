@@ -55,6 +55,8 @@ const change = (e) => {
                     <input type="file" id="profile_picture" @input="change" hidden />
                     <img class="object-cover w-28 h-28" :src="form.preview ?? 'storage/profile_pictures/default.jpg'" />
                 </div>
+
+                <InputError class="mt-2" :message="form.errors.profile_picture" />
             </div>
 
             <div>
