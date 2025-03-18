@@ -19,7 +19,9 @@
         "vue": "^3.4.0"
     },
     "dependencies": {
+        "@primeuix/themes": "^1.0.0",
         "@tailwindcss/vite": "^4.0.14",
-        "lodash": "^4.17.21"
+        "lodash": "^4.17.21",
+        "primevue": "^4.3.2"
     }
 }
