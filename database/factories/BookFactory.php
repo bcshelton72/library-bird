@@ -23,7 +23,7 @@ class BookFactory extends Factory
             'title' => fake()->words(3, true),
             'author_id' => Author::factory(),
             'publisher_id' => Publisher::factory(),
-            'category_id' => $this->faker->numberBetween(1, Category::all()->count()),
+            'category_id' => fake()->numberBetween(1, Category::all()->count()),
         ];
     }
 }
