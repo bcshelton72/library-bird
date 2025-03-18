@@ -28,7 +28,7 @@ class PermissionSeeder extends Seeder
         // Create permissions
         foreach (array_merge($customerPermissions, $librarianPermissions) as $permission) {
             Permission::create([
-                'name' => $permission
+                'name' => $permission,
             ]);
         }
 
