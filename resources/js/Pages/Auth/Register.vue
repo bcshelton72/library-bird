@@ -7,6 +7,7 @@ import TextInput from '@/Components/TextInput.vue';
 import { useForm } from '@inertiajs/vue3';
 
 const form = useForm({
+    preview: null,
     profile_picture: '',
     name: '',
     email: '',
@@ -16,6 +17,7 @@ const form = useForm({
 
 const change = (e) => {
     form.profile_picture = e.target.files[0];
+    form.preview = URL.createObjectURL(e.target.files[0]);
 }
 
 const submit = () => {
@@ -30,12 +32,14 @@ const submit = () => {
         <Head title="Register" />
 
         <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="profile_picture" value="Profile Picture" class="mb-1" />
-
-                <input type="file" id="profile_picture" @input="change" />
-
-                <InputError class="mt-2" :message="form.errors.profile_picture" />
+            <div class="grid place-items-center">
+                <div class="relative w-28  h-28 rounded-full overflow-hidden border border-slate-300">
+                    <label for="profile_picture" class="absolute inset-0 grid content-end cursor-pointer">
+                        <span class="bg-white/70 pb-2 text-center">Profile Pic</span>
+                    </label>
+                    <input type="file" id="profile_picture" @input="change" hidden />
+                    <img class="object-cover w-28 h-28" :src="form.preview ?? 'storage/profile_pictures/default.jpg'" />
+                </div>
             </div>
 
             <div class="mt-4">
