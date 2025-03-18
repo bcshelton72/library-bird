@@ -20,7 +20,7 @@ class ReviewFactory extends Factory
         return [
             'book_id' => fake()->numberBetween(1, Book::all()->count()),
             'review_text' => fake()->sentences(2, true),
-            'rating' => fake()->numberBetween(1, 5),
+            'rating' => fake()->randomElement([1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5]),
         ];
     }
 }
