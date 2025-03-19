@@ -15,8 +15,7 @@ class DashboardController extends Controller
     {
         return Inertia::render('Dashboard', [
             'books' => Book::with('author')
-                ->select('title', 'author_id', 'description', 'average_rating', 'availability_date', 'available')
-                ->orderBy('title')
+                ->select('id', 'title', 'author_id', 'description', 'average_rating', 'availability_date', 'available')
                 ->get(),
         ]);
     }

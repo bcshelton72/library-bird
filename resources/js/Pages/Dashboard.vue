@@ -27,14 +27,10 @@ const filters = ref({
 const featured = ref([])
 onMounted(() => {
     featured.value = props.books.sort((a, b) => 0.5 - Math.random()).slice(0, 5);
-    for (const element of featured.value) {
-        console.log(element.title);
-    }
 });
 </script>
 <template>
     <Head title="Dashboard" />
-
     <AuthenticatedLayout>
         <template #header>
             <h2
@@ -44,7 +40,6 @@ onMounted(() => {
             </h2>
             <p>Enjoy this selection of featured books, or search for any title or author.</p>
         </template>
-
         <div class="pb-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg mt-12">
@@ -96,8 +91,14 @@ onMounted(() => {
                             </Column>
                             <Column field="available" header="Availability" filterField="available" dataType="boolean" style="width: 12%" sortable>
                                 <template #body="{ data }">
-                                    {{ data.availability_date }}
-                                    <Button v-if="!data.availability_date" label="Check Out" size="small" />
+                                    <div v-if=data.available>
+                                        <Button v-if="$page.props.auth.permissions.checkout_book" label="Check Out" size="small" />
+                                        <span v-else>Checked In</span>
+                                    </div>
+                                    <div v-else>
+                                        {{ data.availability_date ? 'Due ' + data.availability_date : '' }}
+                                        <Button v-if="$page.props.auth.permissions.return_book" label="Return Book" size="small" />
+                                    </div>
                                 </template>
                                 <template #filter="{ filterModel, filterCallback }">
                                     <Checkbox v-model="filterModel.value" :indeterminate="filterModel.value === null" binary @change="filterCallback()" />

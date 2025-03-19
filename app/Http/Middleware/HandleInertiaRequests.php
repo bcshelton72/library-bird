@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Book;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -33,6 +34,10 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
+                'permissions' => [
+                    'checkout_book' => optional($request->user())->can('checkout_book'),
+                    'return_book' => optional($request->user())->can('return_book'),
+                ],
             ],
         ];
     }
