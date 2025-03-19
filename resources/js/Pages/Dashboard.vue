@@ -28,8 +28,7 @@ defineProps({
                     class="overflow-hidden bg-white shadow-sm sm:rounded-lg"
                 >
                     <div class="p-6 text-gray-900">
-                        <h1>Book Catalog</h1>
-                        <DataTable :value="books" tableStyle="min-width: 50rem" removableSort>
+                        <DataTable :value="books" tableStyle="min-width: 50rem" paginator :rows="10" :rowsPerPageOptions="[10, 20, 50]"  removableSort>
                             <Column header="Cover">
                                 <template #body="slotProps">
                                     <img
@@ -54,7 +53,7 @@ defineProps({
                                     <Rating :modelValue="slotProps.data.average_rating" readonly />
                                 </template>
                             </Column>
-                            <Column field="available" header="Availability" style="width: 12%" sortable>
+                            <Column field="available" header="Availability" dataType="boolean" style="width: 12%" sortable>
                                 <template #body="{ data, field }">
                                     {{ data.availability_date }}
                                     <Button v-if="!data.availability_date" label="Check Out" size="small" />
