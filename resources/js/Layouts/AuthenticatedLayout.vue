@@ -39,6 +39,7 @@ const showingNavigationDropdown = ref(false);
                                     Dashboard
                                 </NavLink>
                                 <NavLink
+                                    v-if="$page.props.auth.roles.librarian"
                                     :href="route('manage-books')"
                                     :active="route().current('manage-books')"
                                 >

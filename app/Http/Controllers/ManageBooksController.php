@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -11,8 +12,13 @@ class ManageBooksController extends Controller
     /**
      * Show the manage books page.
      */
-    public function show(): Response
+    public function show(Request $request): Response
     {
+        // Require librarian role
+        if (! $request->user()->hasRole('Librarian')) {
+            abort(403);
+        }
+
         $books = Book::with('author')
             ->select('id', 'title', 'author_id', 'description', 'average_rating', 'availability_date', 'available')
             ->get();
