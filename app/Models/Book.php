@@ -28,6 +28,10 @@ class Book extends Model
         'page_count',
     ];
 
+    protected $casts = [
+        'available' => 'boolean',
+    ];
+
     public function author(): BelongsTo
     {
         return $this->belongsTo(Author::class);

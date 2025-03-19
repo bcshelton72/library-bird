@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Button from 'primevue/button';
+import Checkbox from 'primevue/checkbox';
 import Column from 'primevue/column';
 import DataTable from 'primevue/datatable';
 import { FilterMatchMode } from '@primevue/core/api';
@@ -19,6 +20,7 @@ const filters = ref({
     title: { value: null, matchMode: FilterMatchMode.CONTAINS },
     'author.first_name': { value: null, matchMode: FilterMatchMode.CONTAINS },
     'author.last_name': { value: null, matchMode: FilterMatchMode.CONTAINS },
+    available: { value: null, matchMode: FilterMatchMode.EQUALS },
 });
 </script>
 <template>
@@ -43,6 +45,7 @@ const filters = ref({
                             v-model:filters="filters"
                             :value="books" tableStyle="min-width: 50rem"
                             paginator :rows="10" :rowsPerPageOptions="[10, 20, 50]"
+                            filterDisplay="row"
                             :globalFilterFields="['title', 'author.first_name', 'author.last_name']"
                             removableSort
                         >
@@ -80,10 +83,13 @@ const filters = ref({
                                     <Rating :modelValue="slotProps.data.average_rating" readonly />
                                 </template>
                             </Column>
-                            <Column field="available" header="Availability" dataType="boolean" style="width: 12%" sortable>
-                                <template #body="{ data, field }">
+                            <Column field="available" header="Availability" filterField="available" dataType="boolean" style="width: 12%" sortable>
+                                <template #body="{ data }">
                                     {{ data.availability_date }}
                                     <Button v-if="!data.availability_date" label="Check Out" size="small" />
+                                </template>
+                                <template #filter="{ filterModel, filterCallback }">
+                                    <Checkbox v-model="filterModel.value" :indeterminate="filterModel.value === null" binary @change="filterCallback()" />
                                 </template>
                             </Column>
                         </DataTable>
