@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Button from 'primevue/button';
 import Checkbox from 'primevue/checkbox';
@@ -11,7 +11,7 @@ import InputIcon from 'primevue/inputicon';
 import InputText from 'primevue/inputtext';
 import Rating from 'primevue/rating';
 
-defineProps({
+const props = defineProps({
     books: Object,
 });
 
@@ -21,6 +21,15 @@ const filters = ref({
     'author.first_name': { value: null, matchMode: FilterMatchMode.CONTAINS },
     'author.last_name': { value: null, matchMode: FilterMatchMode.CONTAINS },
     available: { value: null, matchMode: FilterMatchMode.EQUALS },
+});
+
+// Randomize books to feature different ones each page load
+const featured = ref([])
+onMounted(() => {
+    featured.value = props.books.sort((a, b) => 0.5 - Math.random()).slice(0, 5);
+    for (const element of featured.value) {
+        console.log(element.title);
+    }
 });
 </script>
 <template>
@@ -33,15 +42,15 @@ const filters = ref({
             >
                 Welcome {{ $page.props.auth.user.name }}!
             </h2>
+            <p>Enjoy this selection of featured books, or search for any title or author.</p>
         </template>
 
-        <div class="py-12">
+        <div class="pb-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <div
-                    class="overflow-hidden bg-white shadow-sm sm:rounded-lg"
-                >
+                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg mt-12">
                     <div class="p-6 text-gray-900">
                         <DataTable
+                            dataKey="id"
                             v-model:filters="filters"
                             :value="books" tableStyle="min-width: 50rem"
                             paginator :rows="10" :rowsPerPageOptions="[10, 20, 50]"
@@ -55,7 +64,7 @@ const filters = ref({
                                         <InputIcon>
                                             <i class="pi pi-search" />
                                         </InputIcon>
-                                        <InputText v-model="filters['global'].value" placeholder="Search titles & authors" class="w-64" />
+                                        <InputText v-model="filters['global'].value" placeholder="Search all titles & authors" class="w-64" />
                                     </IconField>
                                 </div>
                             </template>
