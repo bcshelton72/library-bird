@@ -45,7 +45,7 @@ const filters = ref({
                             v-model:filters="filters"
                             :value="books" tableStyle="min-width: 50rem"
                             paginator :rows="10" :rowsPerPageOptions="[10, 20, 50]"
-                            filterDisplay="row"
+                            filterDisplay="menu"
                             :globalFilterFields="['title', 'author.first_name', 'author.last_name']"
                             removableSort
                         >
@@ -59,6 +59,8 @@ const filters = ref({
                                     </IconField>
                                 </div>
                             </template>
+                            <template #empty> No books found for your search terms. </template>
+                            <template #loading> Loading books! Please wait. </template>
                             <Column header="Cover">
                                 <template #body="slotProps">
                                     <img

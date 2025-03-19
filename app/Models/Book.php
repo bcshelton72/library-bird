@@ -28,9 +28,19 @@ class Book extends Model
         'page_count',
     ];
 
-    protected $casts = [
-        'available' => 'boolean',
-    ];
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'available' => 'boolean',
+            'availability_date' => 'datetime:M j, Y',
+            'publication_date' => 'datetime:Y',
+        ];
+    }
 
     public function author(): BelongsTo
     {
