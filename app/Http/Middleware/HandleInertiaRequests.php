@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Book;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -36,7 +35,15 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
                 'permissions' => [
                     'checkout_book' => optional($request->user())->can('checkout_book'),
+                    'review_book' => optional($request->user())->can('review_book'),
+                    'create_book' => optional($request->user())->can('create_book'),
                     'return_book' => optional($request->user())->can('return_book'),
+                    'update_book' => optional($request->user())->can('update_book'),
+                    'delete_book' => optional($request->user())->can('delete_book'),
+                ],
+                'roles' => [
+                    'customer' => optional($request->user())->hasRole('Customer'),
+                    'librarian' => optional($request->user())->hasRole('Librarian'),
                 ],
             ],
         ];
