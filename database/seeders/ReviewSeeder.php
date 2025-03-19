@@ -13,7 +13,7 @@ class ReviewSeeder extends Seeder
      */
     public function run(): void
     {
-        Review::factory()->count(10)->create();
+        Review::factory()->count(150)->create();
 
         // Calculate average review scores
         Book::all()->each(function ($book) {

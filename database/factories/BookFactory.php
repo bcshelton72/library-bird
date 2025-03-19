@@ -20,9 +20,9 @@ class BookFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->words(3, true),
-            'author_id' => Author::factory(),
-            'publisher_id' => Publisher::factory(),
+            'title' => ucwords(fake()->unique()->words(fake()->numberBetween(1, 4), true)),
+            'author_id' => fake()->numberBetween(1, Author::all()->count()),
+            'publisher_id' => fake()->numberBetween(1, Publisher::all()->count()),
             'category_id' => fake()->numberBetween(1, Category::all()->count()),
         ];
     }

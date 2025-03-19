@@ -50,7 +50,7 @@ class Book extends Model
 
     public function calculateAverageRating(): void
     {
-        $this->average_rating = round(($this->reviews->sum('rating')) / $this->reviews->count(), 2);
+        $this->average_rating = round(($this->reviews->sum('rating')) / ($this->reviews->count() ?: 1), 2);
         $this->save();
     }
 }
