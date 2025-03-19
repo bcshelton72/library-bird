@@ -33,7 +33,9 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        return $request->user()->hasRole('Librarian')
+            ? redirect()->intended(route('manage-books', absolute: false))
+            : redirect()->intended(route('dashboard', absolute: false));
     }
 
     /**
