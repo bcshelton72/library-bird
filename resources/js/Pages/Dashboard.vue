@@ -1,15 +1,26 @@
 <script setup>
+import { ref } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Button from 'primevue/button';
 import Column from 'primevue/column';
 import DataTable from 'primevue/datatable';
+import { FilterMatchMode } from '@primevue/core/api';
+import IconField from 'primevue/iconfield';
+import InputIcon from 'primevue/inputicon';
+import InputText from 'primevue/inputtext';
 import Rating from 'primevue/rating';
 
 defineProps({
     books: Object,
 });
-</script>
 
+const filters = ref({
+    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    title: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    'author.first_name': { value: null, matchMode: FilterMatchMode.CONTAINS },
+    'author.last_name': { value: null, matchMode: FilterMatchMode.CONTAINS },
+});
+</script>
 <template>
     <Head title="Dashboard" />
 
@@ -28,7 +39,23 @@ defineProps({
                     class="overflow-hidden bg-white shadow-sm sm:rounded-lg"
                 >
                     <div class="p-6 text-gray-900">
-                        <DataTable :value="books" tableStyle="min-width: 50rem" paginator :rows="10" :rowsPerPageOptions="[10, 20, 50]"  removableSort>
+                        <DataTable
+                            v-model:filters="filters"
+                            :value="books" tableStyle="min-width: 50rem"
+                            paginator :rows="10" :rowsPerPageOptions="[10, 20, 50]"
+                            :globalFilterFields="['title', 'author.first_name', 'author.last_name']"
+                            removableSort
+                        >
+                            <template #header>
+                                <div class="flex justify-end">
+                                    <IconField>
+                                        <InputIcon>
+                                            <i class="pi pi-search" />
+                                        </InputIcon>
+                                        <InputText v-model="filters['global'].value" placeholder="Keyword Search" />
+                                    </IconField>
+                                </div>
+                            </template>
                             <Column header="Cover">
                                 <template #body="slotProps">
                                     <img
