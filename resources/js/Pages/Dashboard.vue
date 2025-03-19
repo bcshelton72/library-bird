@@ -52,7 +52,7 @@ const filters = ref({
                                         <InputIcon>
                                             <i class="pi pi-search" />
                                         </InputIcon>
-                                        <InputText v-model="filters['global'].value" placeholder="Keyword Search" />
+                                        <InputText v-model="filters['global'].value" placeholder="Search titles & authors" class="w-64" />
                                     </IconField>
                                 </div>
                             </template>
