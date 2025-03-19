@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Book extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -37,7 +38,8 @@ class Book extends Model
     {
         return [
             'available' => 'boolean',
-            'availability_date' => 'datetime:M j, Y',
+            // 'availability_date' => 'datetime:M j, Y',
+            'availability_date' => 'datetime:Y-m-j',
             'publication_date' => 'datetime:Y',
         ];
     }
