@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Book;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -12,6 +13,11 @@ class DashboardController extends Controller
      */
     public function show(): Response
     {
-        return Inertia::render('Dashboard');
+        return Inertia::render('Dashboard', [
+            'books' => Book::with('author')
+                ->select('title', 'author_id', 'description', 'average_rating', 'availability_date', 'available')
+                ->orderBy('title')
+                ->get(),
+        ]);
     }
 }
