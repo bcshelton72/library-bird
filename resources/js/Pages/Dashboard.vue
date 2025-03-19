@@ -44,6 +44,7 @@ onMounted(() => {
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg mt-12">
                     <div class="p-6 text-gray-900">
+                        <h2 class="text-xl font-semibold">Book Catalog</h2>
                         <DataTable
                             dataKey="id"
                             v-model:filters="filters"
@@ -91,17 +92,16 @@ onMounted(() => {
                             </Column>
                             <Column field="available" header="Availability" filterField="available" dataType="boolean" style="width: 12%" sortable>
                                 <template #body="{ data }">
-                                    <div v-if=data.available>
-                                        <Button v-if="$page.props.auth.permissions.checkout_book" label="Check Out" size="small" />
-                                        <span v-else>Checked In</span>
-                                    </div>
-                                    <div v-else>
-                                        {{ data.availability_date ? 'Due ' + data.availability_date : '' }}
-                                        <Button v-if="$page.props.auth.permissions.return_book" label="Return Book" size="small" />
-                                    </div>
+                                    {{ data.availability_date ? data.availability_date : 'Checked In' }}
                                 </template>
                                 <template #filter="{ filterModel, filterCallback }">
                                     <Checkbox v-model="filterModel.value" :indeterminate="filterModel.value === null" binary @change="filterCallback()" />
+                                </template>
+                            </Column>
+                            <Column header="Actions" style="width: 12%">
+                                <template #body="{ data }">
+                                    <Button v-if="data.available && $page.props.auth.permissions.checkout_book" label="Check Out" size="small" />
+                                    <Button v-if="data.availability_date && $page.props.auth.permissions.return_book" label="Return Book" size="small" />
                                 </template>
                             </Column>
                         </DataTable>
