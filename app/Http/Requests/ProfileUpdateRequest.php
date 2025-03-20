@@ -16,7 +16,7 @@ class ProfileUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'profile_picture' => ['file', 'nullable', 'max:300'],
+            'profile_picture' => ['sometimes', 'max:300'],
             'name' => ['required', 'string', 'max:255'],
             'email' => [
                 'required',

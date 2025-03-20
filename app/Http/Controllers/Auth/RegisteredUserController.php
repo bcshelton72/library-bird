@@ -33,7 +33,7 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'profile_picture' => ['file', 'nullable', 'max:300'],
+            'profile_picture' => 'sometimes|file|max:300',
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'role' => 'required|string|exists:roles,name',
