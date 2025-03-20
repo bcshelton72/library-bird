@@ -100,7 +100,6 @@ const returnBook = (bookId) => {
                                         :src="slotProps.data.cover_image
                                             ? 'storage/' + slotProps.data.cover_image
                                             : 'storage/cover_images/default/' + slotProps.data.id % 10 + '.png'"
-
                                         :alt="slotProps.data.cover_image"
                                         class="w-24
                                         rounded"
