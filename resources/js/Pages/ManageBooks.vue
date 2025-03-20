@@ -4,6 +4,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Button from 'primevue/button';
 import Checkbox from 'primevue/checkbox';
 import Column from 'primevue/column';
+import ConfirmDialog from 'primevue/confirmdialog';
 import DataTable from 'primevue/datatable';
 import { FilterMatchMode } from '@primevue/core/api';
 import IconField from 'primevue/iconfield';
@@ -12,6 +13,7 @@ import InputText from 'primevue/inputtext';
 import Message from 'primevue/message';
 import Rating from 'primevue/rating';
 import { router } from "@inertiajs/vue3";
+import { useConfirm } from "primevue/useconfirm";
 
 const props = defineProps({
     books: Object,
@@ -33,16 +35,56 @@ const filters = ref({
     available: { value: null, matchMode: FilterMatchMode.EQUALS },
 });
 
+const confirm = useConfirm();
+
 const returnBook = (bookId) => {
-    if (confirm("Are you sure you want to return this book?")) {
-        router.put(route("book.return", bookId));
+    confirm.require({
+        message: 'Are you sure you want to return this book?',
+        header: 'Confirmation',
+        rejectProps: {
+            label: 'Cancel',
+            severity: 'secondary',
+            outlined: true
+        },
+        acceptProps: {
+            label: 'Yes Mark As Returned'
+        },
+        accept: () => {
+            router.put(route("book.return", bookId));
+        },
+        reject: () => {
+            //
+        }
+    });
+};
+
+const deleteBookaa = (bookId) => {
+    if (confirm("Are you sure you want to delete this book?")) {
+        router.delete(route("book.destroy", bookId));
     }
 };
 
 const deleteBook = (bookId) => {
-    if (confirm("Are you sure you want to delete this book?")) {
-        router.delete(route("book.destroy", bookId));
-    }
+    confirm.require({
+        message: 'Warning! Are you sure you want to delete this book?',
+        header: 'Confirmation',
+        icon: 'pi pi-exclamation-triangle',
+        rejectProps: {
+            label: 'Cancel',
+            severity: 'secondary',
+            outlined: true
+        },
+        acceptProps: {
+            label: 'Yes Delete This Book',
+            severity: 'danger'
+        },
+        accept: () => {
+            router.delete(route("book.destroy", bookId));
+        },
+        reject: () => {
+            //
+        }
+    });
 };
 
 </script>
@@ -50,6 +92,7 @@ const deleteBook = (bookId) => {
     <Head title="Dashboard" />
     <AuthenticatedLayout>
         <template #header>
+            <ConfirmDialog></ConfirmDialog>
             <div class="flex justify-between">
                 <h2
                     class="flex text-xl font-semibold leading-tight text-gray-800"

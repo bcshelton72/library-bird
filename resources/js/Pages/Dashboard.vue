@@ -4,6 +4,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Button from 'primevue/button';
 import Checkbox from 'primevue/checkbox';
 import Column from 'primevue/column';
+import ConfirmDialog from 'primevue/confirmdialog';
 import DataTable from 'primevue/datatable';
 import { FilterMatchMode } from '@primevue/core/api';
 import IconField from 'primevue/iconfield';
@@ -12,6 +13,7 @@ import InputText from 'primevue/inputtext';
 import Message from 'primevue/message';
 import Rating from 'primevue/rating';
 import { router } from "@inertiajs/vue3";
+import { useConfirm } from "primevue/useconfirm";
 
 const props = defineProps({
     books: Object,
@@ -35,16 +37,48 @@ const randomize = () => {
         featured.value = props.books.sort((a, b) => 0.5 - Math.random()).slice(0, 5);
 }
 
+const confirm = useConfirm();
+
 const checkoutBook = (bookId) => {
-    if (confirm("Are you sure you want to check out this book?")) {
-        router.put(route("book.checkout", bookId));
-    }
+    confirm.require({
+        message: 'Are you sure you want to check out this book?',
+        header: 'Confirmation',
+        rejectProps: {
+            label: 'No thanks',
+            severity: 'secondary',
+            outlined: true
+        },
+        acceptProps: {
+            label: 'Yes it looks great!'
+        },
+        accept: () => {
+            router.put(route("book.checkout", bookId));
+        },
+        reject: () => {
+            //
+        }
+    });
 };
 
 const returnBook = (bookId) => {
-    if (confirm("Are you sure you want to return this book?")) {
-        router.put(route("book.return", bookId));
-    }
+    confirm.require({
+        message: 'Are you sure you want to return this book?',
+        header: 'Confirmation',
+        rejectProps: {
+            label: 'Cancel',
+            severity: 'secondary',
+            outlined: true
+        },
+        acceptProps: {
+            label: 'Yes Mark As Returned'
+        },
+        accept: () => {
+            router.put(route("book.return", bookId));
+        },
+        reject: () => {
+            //
+        }
+    });
 };
 
 </script>
@@ -52,6 +86,7 @@ const returnBook = (bookId) => {
     <Head title="Dashboard" />
     <AuthenticatedLayout>
         <template #header>
+            <ConfirmDialog></ConfirmDialog>
             <div class="flex justify-between">
             <h2
                 class="text-xl font-semibold leading-tight text-gray-800"

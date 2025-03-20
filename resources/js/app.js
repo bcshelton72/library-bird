@@ -6,6 +6,7 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createApp, h } from 'vue';
 import PrimeVue from 'primevue/config';
 import Aura from '@primeuix/themes/aura';
+import ConfirmationService from 'primevue/confirmationservice';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
@@ -25,6 +26,7 @@ createInertiaApp({
                     preset: Aura,
                 },
             })
+            .use(ConfirmationService)
             .use(ZiggyVue)
             .component('Head', Head)
             .component('Link', Link)
