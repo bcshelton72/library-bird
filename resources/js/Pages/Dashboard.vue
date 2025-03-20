@@ -9,7 +9,9 @@ import { FilterMatchMode } from '@primevue/core/api';
 import IconField from 'primevue/iconfield';
 import InputIcon from 'primevue/inputicon';
 import InputText from 'primevue/inputtext';
+import Message from 'primevue/message';
 import Rating from 'primevue/rating';
+import { router } from "@inertiajs/vue3";
 
 const props = defineProps({
     books: Object,
@@ -26,25 +28,51 @@ const filters = ref({
 // Randomize books to feature different ones each page load
 const featured = ref([])
 onMounted(() => {
-    featured.value = props.books.sort((a, b) => 0.5 - Math.random()).slice(0, 5);
+    randomize();
 });
+
+const randomize = () => {
+        featured.value = props.books.sort((a, b) => 0.5 - Math.random()).slice(0, 5);
+}
+
+const checkoutBook = (bookId) => {
+    if (confirm("Are you sure you want to check out this book?")) {
+        router.put(route("book.checkout", bookId));
+    }
+};
+
+const returnBook = (bookId) => {
+    if (confirm("Are you sure you want to return this book?")) {
+        router.put(route("book.return", bookId));
+    }
+};
+
 </script>
 <template>
     <Head title="Dashboard" />
     <AuthenticatedLayout>
         <template #header>
+            <div class="flex justify-between">
             <h2
                 class="text-xl font-semibold leading-tight text-gray-800"
             >
                 Welcome {{ $page.props.auth.user.name }}!
             </h2>
-            <p>Enjoy this selection of featured books, or search for any title or author.</p>
+            <div v-if="$page.props.flash.success" class="alert alert-success">
+                <Message severity="success">{{ $page.props.flash.success }}</Message>
+            </div>
+            <div v-if="$page.props.flash.error" class="alert alert-danger">
+                <Message severity="error">{{ $page.props.flash.error }}</Message>
+            </div>
+            <Button @click="randomize" label="Surprise me!" size="small" />
+            </div>
         </template>
         <div class="pb-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg mt-12">
                     <div class="p-6 text-gray-900">
                         <h2 class="text-xl font-semibold">Book Catalog</h2>
+                        <p>Enjoy this selection of featured books or search for any title or author.</p>
                         <DataTable
                             dataKey="id"
                             v-model:filters="filters"
@@ -100,8 +128,11 @@ onMounted(() => {
                             </Column>
                             <Column header="Actions" style="width: 12%">
                                 <template #body="{ data }">
-                                    <Button v-if="data.available && $page.props.auth.permissions.checkout_book" label="Check Out" size="small" />
-                                    <Button v-if="data.availability_date && $page.props.auth.permissions.return_book" label="Return Book" size="small" />
+                                    <Button v-if="data.available && $page.props.auth.permissions.checkout_book"
+                                        @click="checkoutBook(data.id)"  label="Check Out" size="small" type="button" />
+
+                                    <Button v-if="data.availability_date && $page.props.auth.permissions.return_book"
+                                        @click="returnBook(data.id)" label="Return book" size="small" type="button" />
                                 </template>
                             </Column>
                         </DataTable>

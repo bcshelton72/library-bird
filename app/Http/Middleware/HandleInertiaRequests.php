@@ -46,6 +46,10 @@ class HandleInertiaRequests extends Middleware
                     'librarian' => optional($request->user())->hasRole('Librarian'),
                 ],
             ],
+            'flash' => [
+                'success' => $request->session()->get('success'),
+                'error' => $request->session()->get('error'),
+            ],
         ];
     }
 }

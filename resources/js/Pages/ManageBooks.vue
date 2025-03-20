@@ -9,7 +9,9 @@ import { FilterMatchMode } from '@primevue/core/api';
 import IconField from 'primevue/iconfield';
 import InputIcon from 'primevue/inputicon';
 import InputText from 'primevue/inputtext';
+import Message from 'primevue/message';
 import Rating from 'primevue/rating';
+import { router } from "@inertiajs/vue3";
 
 const props = defineProps({
     books: Object,
@@ -31,16 +33,37 @@ const filters = ref({
     available: { value: null, matchMode: FilterMatchMode.EQUALS },
 });
 
+const returnBook = (bookId) => {
+    if (confirm("Are you sure you want to return this book?")) {
+        router.put(route("book.return", bookId));
+    }
+};
+
+const deleteBook = (bookId) => {
+    if (confirm("Are you sure you want to delete this book?")) {
+        router.delete(route("book.destroy", bookId));
+    }
+};
+
 </script>
 <template>
     <Head title="Dashboard" />
     <AuthenticatedLayout>
         <template #header>
-            <h2
-                class="text-xl font-semibold leading-tight text-gray-800"
-            >
-                Welcome {{ $page.props.auth.user.name }}!
-            </h2>
+            <div class="flex justify-between">
+                <h2
+                    class="flex text-xl font-semibold leading-tight text-gray-800"
+                >
+                    Welcome {{ $page.props.auth.user.name }}!
+                </h2>
+                <div v-if="$page.props.flash.success" class="alert alert-success">
+                    <Message severity="success">{{ $page.props.flash.success }}</Message>
+                </div>
+                <div v-if="$page.props.flash.error" class="alert alert-danger">
+                    <Message severity="error">{{ $page.props.flash.error }}</Message>
+                </div>
+                <Button label="Add Book" size="small" />
+            </div>
         </template>
         <div class="pb-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -100,7 +123,8 @@ const filters = ref({
                             </Column>
                             <Column header="Actions" style="width: 12%">
                                 <template #body="{ data }">
-                                    <Button v-if="$page.props.auth.permissions.return_book" label="Return Book" size="small" />
+                                    <Button v-if="$page.props.auth.permissions.return_book"
+                                        @click="returnBook(data.id)" label="Return book" size="small" type="button" />
                                 </template>
                             </Column>
                         </DataTable>
@@ -159,8 +183,7 @@ const filters = ref({
                             <Column field="available" header="Availability" filterField="available" dataType="boolean" style="width: 12%" sortable>
                                 <template #body="{ data }">
                                     <div v-if=data.available>
-                                        <Button v-if="$page.props.auth.permissions.checkout_book" label="Check Out" size="small" />
-                                        <span v-else>Checked In</span>
+                                        <span>Checked In</span>
                                     </div>
                                     <div v-else>
                                         {{ data.availability_date ? data.availability_date : '' }}
@@ -172,8 +195,11 @@ const filters = ref({
                             </Column>
                             <Column header="Actions" style="width: 15%">
                                 <template #body="{ data }">
+
                                     <Button v-if="$page.props.auth.permissions.update_book" label="Update" size="small" severity="primary" class="mr-2" />
-                                    <Button v-if="$page.props.auth.permissions.delete_book" label="Delete"  size="small" severity="danger" />
+
+                                    <Button v-if="$page.props.auth.permissions.delete_book"
+                                        @click="deleteBook(data.id)" label="Delete" size="small" severity="danger" type="button" />
                                 </template>
                             </Column>
                         </DataTable>

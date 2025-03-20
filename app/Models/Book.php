@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -67,6 +68,26 @@ class Book extends Model
     public function calculateAverageRating(): void
     {
         $this->average_rating = round(($this->reviews->sum('rating')) / ($this->reviews->count() ?: 1), 2);
+        $this->save();
+    }
+
+    /**
+     * Mark the book as checked out
+     */
+    public function checkout(): void
+    {
+        $this->availability_date = Carbon::now()->addDays(5)->toDateString();
+        $this->available = false;
+        $this->save();
+    }
+
+    /**
+     * Mark the book as returned (no longer checked out)
+     */
+    public function return(): void
+    {
+        $this->availability_date = null;
+        $this->available = true;
         $this->save();
     }
 }
