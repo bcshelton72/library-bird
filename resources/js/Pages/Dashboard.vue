@@ -88,18 +88,18 @@ const returnBook = (bookId) => {
         <template #header>
             <ConfirmDialog></ConfirmDialog>
             <div class="flex justify-between">
-            <h2
-                class="text-xl font-semibold leading-tight text-gray-800"
-            >
-                Welcome {{ $page.props.auth.user.name }}!
-            </h2>
-            <div v-if="$page.props.flash.success" class="alert alert-success">
-                <Message severity="success">{{ $page.props.flash.success }}</Message>
-            </div>
-            <div v-if="$page.props.flash.error" class="alert alert-danger">
-                <Message severity="error">{{ $page.props.flash.error }}</Message>
-            </div>
-            <Button @click="randomize" label="Surprise me!" size="small" />
+                <h2
+                    class="text-xl font-semibold leading-tight text-gray-800"
+                >
+                    Welcome {{ $page.props.auth.user.name }}!
+                </h2>
+                <div v-if="$page.props.flash.success" class="alert alert-success">
+                    <Message severity="success">{{ $page.props.flash.success }}</Message>
+                </div>
+                <div v-if="$page.props.flash.error" class="alert alert-danger">
+                    <Message severity="error">{{ $page.props.flash.error }}</Message>
+                </div>
+                <Button @click="randomize" label="Surprise me!" size="small" />
             </div>
         </template>
         <div class="pb-12">
@@ -127,21 +127,27 @@ const returnBook = (bookId) => {
                                     </IconField>
                                 </div>
                             </template>
-                            <template #empty> No books found for your search terms. </template>
+                            <template #empty> No books found. </template>
                             <template #loading> Loading books! Please wait. </template>
                             <Column header="Cover">
                                 <template #body="slotProps">
-                                    <img
-                                        :src="slotProps.data.cover_image
-                                            ? 'storage/' + slotProps.data.cover_image
-                                            : 'storage/cover_images/default/' + slotProps.data.id % 10 + '.png'"
-                                        :alt="slotProps.data.cover_image"
-                                        class="w-24
-                                        rounded"
-                                    />
+                                    <Link :href="route('book.show', slotProps.data.id)">
+                                        <img
+                                            :src="slotProps.data.cover_image
+                                                ? 'storage/' + slotProps.data.cover_image
+                                                : 'storage/cover_images/default/' + slotProps.data.id % 10 + '.png'"
+                                            :alt="slotProps.data.cover_image"
+                                            class="w-24
+                                            rounded"
+                                        />
+                                    </Link>
                                 </template>
                             </Column>
-                            <Column field="title" header="Title" sortable></Column>
+                            <Column field="title" header="Title" sortable>
+                                <template #body="{ data }">
+                                    <Link :href="route('book.show', data.id)">{{ data.title }}</Link>
+                                </template>
+                            </Column>
                             <Column field="author.last_name" header="Author" sortable>
                                 <template #body="{ data }">
                                     {{ data.author.first_name }} {{ data.author.last_name }}
@@ -167,7 +173,7 @@ const returnBook = (bookId) => {
                                         @click="checkoutBook(data.id)"  label="Check Out" size="small" type="button" />
 
                                     <Button v-if="data.availability_date && $page.props.auth.permissions.return_book"
-                                        @click="returnBook(data.id)" label="Return book" size="small" type="button" />
+                                        @click="returnBook(data.id)" label="Return Book" size="small" type="button" />
                                 </template>
                             </Column>
                         </DataTable>

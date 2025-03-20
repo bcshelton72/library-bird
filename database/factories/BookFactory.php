@@ -25,6 +25,9 @@ class BookFactory extends Factory
             'publisher_id' => fake()->numberBetween(1, Publisher::all()->count()),
             'category_id' => fake()->numberBetween(1, Category::all()->count()),
             'description' => fake()->sentences(3, true),
+            'publication_date' => fake()->date(),
+            'isbn' => fake()->uuid,
+            'page_count' => fake()->numberBetween(120, 1200),
         ];
     }
 }

@@ -58,12 +58,6 @@ const returnBook = (bookId) => {
     });
 };
 
-const deleteBookaa = (bookId) => {
-    if (confirm("Are you sure you want to delete this book?")) {
-        router.delete(route("book.destroy", bookId));
-    }
-};
-
 const deleteBook = (bookId) => {
     confirm.require({
         message: 'Warning! Are you sure you want to delete this book?',
@@ -133,7 +127,7 @@ const deleteBook = (bookId) => {
                                     </IconField>
                                 </div>
                             </template>
-                            <template #empty> No books found for your search terms. </template>
+                            <template #empty> No checked out books found. </template>
                             <template #loading> Loading books! Please wait. </template>
                             <Column header="Cover">
                                 <template #body="slotProps">
@@ -167,7 +161,7 @@ const deleteBook = (bookId) => {
                             <Column header="Actions" style="width: 12%">
                                 <template #body="{ data }">
                                     <Button v-if="$page.props.auth.permissions.return_book"
-                                        @click="returnBook(data.id)" label="Return book" size="small" type="button" />
+                                        @click="returnBook(data.id)" label="Return Book" size="small" type="button" />
                                 </template>
                             </Column>
                         </DataTable>
@@ -197,7 +191,7 @@ const deleteBook = (bookId) => {
                                     </IconField>
                                 </div>
                             </template>
-                            <template #empty> No books found for your search terms. </template>
+                            <template #empty> No books found. </template>
                             <template #loading> Loading books! Please wait. </template>
                             <Column header="Cover">
                                 <template #body="slotProps">

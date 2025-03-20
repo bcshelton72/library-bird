@@ -63,8 +63,8 @@ const showingNavigationDropdown = ref(false);
                                                 <img
                                                     class="object-cover w-8 h-8 rounded-full ml-4"
                                                     :src="$page.props.auth.user.profile_picture
-                                                        ? 'storage/' + $page.props.auth.user.profile_picture
-                                                        : 'storage/profile_pictures/default.jpg'"
+                                                        ? '/storage/' + $page.props.auth.user.profile_picture
+                                                        : '/storage/profile_pictures/default.jpg'"
                                                     alt=""
                                                 />
                                             </button>

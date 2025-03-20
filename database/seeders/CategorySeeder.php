@@ -16,8 +16,11 @@ class CategorySeeder extends Seeder
             'Classics',
             'Crime',
             'Fantasy',
-            'Fiction',
+            'General Fiction',
+            'History',
             'Horror',
+            'Literature',
+            'Mystery',
             'Science',
             'Science Fiction',
         ];

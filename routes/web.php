@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ManageBooksController;
 use App\Http\Controllers\ProfileController;
@@ -11,6 +12,7 @@ Route::get('/', [WelcomeController::class, 'show'])->name('welcome');
 
 Route::middleware('auth', 'verified')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard');
+    Route::get('/book/{book}', [BookController::class, 'show'])->name('book.show');
     Route::put('/books/{book}', [ManageBooksController::class, 'checkout'])->name('book.checkout');
 });
 
