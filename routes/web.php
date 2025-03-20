@@ -8,8 +8,11 @@ use App\Http\Middleware\IsLibrarian;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [WelcomeController::class, 'show'])->name('welcome');
-Route::get('/dashboard', [DashboardController::class, 'show'])->middleware(['auth', 'verified'])->name('dashboard');
-Route::put('/books/{book}', [ManageBooksController::class, 'checkout'])->name('book.checkout');
+
+Route::middleware('auth', 'verified')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard');
+    Route::put('/books/{book}', [ManageBooksController::class, 'checkout'])->name('book.checkout');
+});
 
 // Only allow access if user has librarian role
 Route::middleware('auth', 'verified', IsLibrarian::class)->group(function () {
