@@ -20,13 +20,15 @@ class ReviewController extends Controller
             'rating' => 'required|integer|between:1,5',
         ]);
 
-        Review::updateOrCreate([
+        $review = Review::updateOrCreate([
             'book_id' => $request->book_id,
             'user_id' => $request->user()->id,
         ], [
             'review_text' => $request->review_text,
             'rating' => $request->rating,
         ]);
+
+        $review->book->calculateAverageRating();
 
         return redirect()->route('dashboard')->with('success', 'Review saved successfully!');
     }
