@@ -2,13 +2,24 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Button from 'primevue/button';
 import ConfirmDialog from 'primevue/confirmdialog';
-import Tag from 'primevue/tag';
+import InputError from '@/Components/InputError.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 import Rating from 'primevue/rating';
-import { router } from "@inertiajs/vue3";
+import Tag from 'primevue/tag';
+import Textarea from 'primevue/textarea';
+import { router, useForm } from "@inertiajs/vue3";
 import { useConfirm } from "primevue/useconfirm";
 
-defineProps({
+
+const props = defineProps({
     book: Object,
+    review: Object,
+});
+
+const form = useForm({
+    book_id: props.book.id,
+    review_text: props.review?.review_text,
+    rating: props.review?.rating,
 });
 
 const confirm = useConfirm();
@@ -54,6 +65,13 @@ const returnBook = (bookId) => {
         }
     });
 };
+
+const submit = (bookId) => {
+    form.book_id = bookId;
+    form.post(route('review.store'), {
+        onFinish: () => form.reset('password'),
+    });
+};
 </script>
 
 <template>
@@ -62,7 +80,7 @@ const returnBook = (bookId) => {
         <ConfirmDialog></ConfirmDialog>
         <div class="pb-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg mt-12">
+                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg mt-8">
                     <div class="p-6 text-gray-900">
                         <div class="flex justify-between">
                             <div>
@@ -98,6 +116,42 @@ const returnBook = (bookId) => {
                                 </Link>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <div v-if="$page.props.auth.permissions.create_review" class="overflow-hidden bg-white shadow-sm sm:rounded-lg mt-8">
+                    <div class="p-6 text-gray-900">
+                        <form
+                            @submit.prevent="form.post(route('review.store'))"
+                            class="gap-6"
+                        >
+                            <div>
+                                <Textarea
+                                    label="Your Review"
+                                    placeholder="What did you think of this book?"
+                                    v-model="form.review_text"
+                                    class="w-3/4 h-24"
+                                />
+
+                                <InputError class="mt-2" :message="form.errors.review_text" />
+                            </div>
+                            <div>
+                                <Rating v-model="form.rating" class="mt-2" />
+
+                                <InputError class="mt-2" :message="form.errors.rating" />
+                            </div>
+                            <div>
+                                <Button
+                                    class="mt-4"
+                                    :class="{ 'opacity-25': form.processing }"
+                                    :disabled="form.processing"
+                                    size="small"
+                                    @click=(submit(book.id))
+                                >
+                                    Save
+                                </Button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

@@ -35,7 +35,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
                 'permissions' => [
                     'checkout_book' => optional($request->user())->can('checkout_book'),
-                    'review_book' => optional($request->user())->can('review_book'),
+                    'create_review' => optional($request->user())->can('create_review'),
                     'create_book' => optional($request->user())->can('create_book'),
                     'return_book' => optional($request->user())->can('return_book'),
                     'update_book' => optional($request->user())->can('update_book'),

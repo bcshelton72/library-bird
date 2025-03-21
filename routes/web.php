@@ -4,6 +4,7 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ManageBooksController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Middleware\IsLibrarian;
 use Illuminate\Support\Facades\Route;
@@ -14,6 +15,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard');
     Route::get('/book/{book}', [BookController::class, 'show'])->name('book.show');
     Route::put('/books/{book}', [ManageBooksController::class, 'checkout'])->name('book.checkout');
+    Route::post('/reviews', [ReviewController::class, 'store'])->name('review.store');
+
 });
 
 // Only allow access if user has librarian role

@@ -105,7 +105,7 @@ const deleteBook = (bookId) => {
         <div class="pb-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
 
-                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg mt-12">
+                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg mt-8">
                     <div class="p-6 text-gray-900">
                         <h2 class="text-xl font-semibold">Checked Out Books</h2>
                         <DataTable
