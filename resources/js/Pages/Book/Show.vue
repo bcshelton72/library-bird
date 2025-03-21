@@ -68,9 +68,7 @@ const returnBook = (bookId) => {
 
 const submit = (bookId) => {
     form.book_id = bookId;
-    form.post(route('review.store'), {
-        onFinish: () => form.reset('password'),
-    });
+    form.post(route('review.store'));
 };
 </script>
 
@@ -90,7 +88,7 @@ const submit = (bookId) => {
                                             ? '/storage/' + book.cover_image
                                             : '/storage/cover_images/default/' + book.id % 10 + '.png'"
                                         :alt="book.cover_image"
-                                        class="w-24 rounded mr-4 mb-3"
+                                        class="w-24 rounded mr-2 mb-3"
                                         align="left"
                                     />
                                     <div class="text-xl font-semibold">{{ book.title }}</div>

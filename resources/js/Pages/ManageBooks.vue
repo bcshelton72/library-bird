@@ -99,7 +99,10 @@ const deleteBook = (bookId) => {
                 <div v-if="$page.props.flash.error" class="alert alert-danger">
                     <Message severity="error">{{ $page.props.flash.error }}</Message>
                 </div>
-                <Button label="Add Book" size="small" />
+
+                <Link :href="route('book.edit')">
+                    <Button label="Add Book" size="small" />
+                </Link>
             </div>
         </template>
         <div class="pb-12">
@@ -133,8 +136,8 @@ const deleteBook = (bookId) => {
                                 <template #body="slotProps">
                                     <img
                                         :src="slotProps.data.cover_image
-                                            ? 'storage/' + slotProps.data.cover_image
-                                            : 'storage/cover_images/default/' + slotProps.data.id % 10 + '.png'"
+                                            ? '/storage/' + slotProps.data.cover_image
+                                            : '/storage/cover_images/default/' + slotProps.data.id % 10 + '.png'"
                                         :alt="slotProps.data.cover_image"
                                         class="w-24
                                         rounded"
@@ -197,8 +200,8 @@ const deleteBook = (bookId) => {
                                 <template #body="slotProps">
                                     <img
                                         :src="slotProps.data.cover_image
-                                            ? 'storage/' + slotProps.data.cover_image
-                                            : 'storage/cover_images/default/' + slotProps.data.id % 10 + '.png'"
+                                            ? '/storage/' + slotProps.data.cover_image
+                                            : '/storage/cover_images/default/' + slotProps.data.id % 10 + '.png'"
                                         :alt="slotProps.data.cover_image"
                                         class="w-24
                                         rounded"

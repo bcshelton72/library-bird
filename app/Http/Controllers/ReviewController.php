@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class ReviewController extends Controller
 {
     /**
-     * Handle a new review submission.
+     * Handle a review submission.
      *
      * @throws \Illuminate\Validation\ValidationException
      */

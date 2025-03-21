@@ -134,8 +134,8 @@ const returnBook = (bookId) => {
                                     <Link :href="route('book.show', slotProps.data.id)">
                                         <img
                                             :src="slotProps.data.cover_image
-                                                ? 'storage/' + slotProps.data.cover_image
-                                                : 'storage/cover_images/default/' + slotProps.data.id % 10 + '.png'"
+                                                ? '/storage/' + slotProps.data.cover_image
+                                                : '/storage/cover_images/default/' + slotProps.data.id % 10 + '.png'"
                                             :alt="slotProps.data.cover_image"
                                             class="w-24
                                             rounded"

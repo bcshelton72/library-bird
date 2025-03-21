@@ -19,7 +19,7 @@ class ManageBooksController extends Controller
         }
 
         $books = Book::with('author')
-            ->select('id', 'title', 'author_id', 'description', 'average_rating', 'availability_date', 'available')
+            ->select('id', 'cover_image', 'title', 'author_id', 'description', 'average_rating', 'availability_date', 'available')
             ->get();
 
         return Inertia::render('ManageBooks', [

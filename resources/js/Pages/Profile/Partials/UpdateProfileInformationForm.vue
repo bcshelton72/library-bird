@@ -18,8 +18,8 @@ const user = usePage().props.auth.user;
 
 const form = useForm({
     preview: user.profile_picture
-        ? 'storage/' + user.profile_picture
-        : 'storage/profile_pictures/default.jpg',
+        ? '/storage/' + user.profile_picture
+        : '/storage/profile_pictures/default.jpg',
     profile_picture: user.profile_picture,
     name: user.name,
     email: user.email,
@@ -53,7 +53,7 @@ const change = (e) => {
                         <span class="bg-white/70 pb-2 text-center">Profile Pic</span>
                     </label>
                     <input type="file" id="profile_picture" @input="change" hidden />
-                    <img class="object-cover w-28 h-28" :src="form.preview ?? 'storage/profile_pictures/default.jpg'" />
+                    <img class="object-cover w-28 h-28" :src="form.preview ?? '/storage/profile_pictures/default.jpg'" />
                 </div>
 
                 <InputError class="mt-2" :message="form.errors.profile_picture" />
