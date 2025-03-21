@@ -19,5 +19,6 @@ class Review extends Model
         'book_id',
         'review_text',
         'rating',
+        'user_id',
     ];
 }

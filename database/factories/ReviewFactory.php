@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Book;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,6 +22,7 @@ class ReviewFactory extends Factory
             'book_id' => fake()->numberBetween(1, Book::all()->count()),
             'review_text' => fake()->sentences(2, true),
             'rating' => fake()->randomElement([1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5]),
+            'user_id' => fake()->numberBetween(1, User::all()->count()),
         ];
     }
 }
