@@ -16,7 +16,6 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/book/{book}', [BookController::class, 'show'])->name('book.show');
     Route::put('/book-checkout/{book}', [BookController::class, 'checkout'])->name('book.checkout');
     Route::post('/reviews', [ReviewController::class, 'store'])->name('review.store');
-
 });
 
 // Only allow access if user has librarian role

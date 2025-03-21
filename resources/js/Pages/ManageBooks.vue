@@ -100,7 +100,7 @@ const deleteBook = (bookId) => {
                     <Message severity="error">{{ $page.props.flash.error }}</Message>
                 </div>
 
-                <Link :href="route('book.edit')">
+                <Link v-if="$page.props.auth.permissions.create_book" :href="route('book.edit')">
                     <Button label="Add Book" size="small" />
                 </Link>
             </div>
@@ -235,8 +235,9 @@ const deleteBook = (bookId) => {
                             </Column>
                             <Column header="Actions" style="width: 15%">
                                 <template #body="{ data }">
-
-                                    <Button v-if="$page.props.auth.permissions.update_book" label="Update" size="small" severity="primary" class="mr-2" />
+                                    <Link v-if="$page.props.auth.permissions.update_book" :href="route('book.edit', data.id)">
+                                        <Button label="Update" size="small" severity="primary" class="mr-2" />
+                                    </Link>
 
                                     <Button v-if="$page.props.auth.permissions.delete_book"
                                         @click="deleteBook(data.id)" label="Delete" size="small" severity="danger" type="button" />

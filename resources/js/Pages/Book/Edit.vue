@@ -19,27 +19,24 @@ const props = defineProps({
 
 const form = useForm({
     id: props.book.id,
-    cover_image: props.book.cover_image,
+    cover_image: '',
     title: props.book.title,
-    first_name: props.book.first_name,
-    last_name: props.book.last_name,
+    first_name: props.book.author?.first_name,
+    last_name: props.book.author?.last_name,
     description: props.book.description,
-    publisher: props.book.publisher,
+    publisher: props.book.publisher?.name,
     publication_date: props.book.publication_date,
-    category: props.book.category,
+    category: props.book.category?.name,
     isbn: props.book.isbn,
     page_count: props.book.page_count,
 });
 
 const change = (e) => {
-    console.log(e.target.files[0]);
-    console.log(form.cover_image);
     form.cover_image = e.target.files[0];
-    console.log(form.cover_image);
- }
+}
 
 const submit = (bookId) => {
-    form.book_id = bookId;
+    form.id = bookId;
     form.post(route('book.store'));
 };
 </script>
@@ -53,7 +50,7 @@ const submit = (bookId) => {
                 <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg mt-8">
                     <div class="p-6 text-gray-900">
                         <form
-                            @submit.prevent="form.post(route('review.store'))"
+                            @submit.prevent="form.post(route('book.store'))"
                             class="gap-6"
                         >
 

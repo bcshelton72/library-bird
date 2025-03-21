@@ -43,7 +43,7 @@ class BookController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'cover_image' => 'sometimes|file|max:300',
+            'cover_image' => 'sometimes|max:300',
             'title' => 'required|string|max:300',
             'first_name' => 'required|string|max:40',
             'last_name' => 'required|string|max:40',
@@ -66,12 +66,8 @@ class BookController extends Controller
             'name' => $request->category,
         ]);
 
-        if ($request->hasFile('cover_image')) {
-            $saved_cover_image = Storage::disk('public')->put('cover_images', $request->cover_image);
-        }
-
-        Book::UpdateOrCreate([
-            'cover_image' => $saved_cover_image,
+        $data = [
+            'cover_image' => $request->cover_image,
             'title' => $request->title,
             'author_id' => $author->id,
             'publisher_id' => $publisher->id,
@@ -80,7 +76,27 @@ class BookController extends Controller
             'publication_date' => $request->publication_date ?? null,
             'isbn' => $request->isbn ?? null,
             'page_count' => $request->page_count,
-        ]);
+        ];
+
+        if ($request->hasFile('cover_image')) {
+            $data['cover_image'] = Storage::disk('public')->put('cover_images', $request->cover_image);
+        }
+
+        if (isset($request->id)) {
+            $book = Book::find($request->id);
+            $book->cover_image = $data['cover_image'] ?: $book->cover_image;
+            $book->title = $data['title'];
+            $book->author_id = $data['author_id'];
+            $book->publisher_id = $data['publisher_id'];
+            $book->category_id = $data['category_id'];
+            $book->description = $data['description'];
+            $book->publication_date = $data['publication_date'];
+            $book->isbn = $data['isbn'];
+            $book->page_count = $data['page_count'];
+            $book->save();
+        } else {
+            Book::create($data);
+        }
 
         return redirect()->route('manage-books')->with('success', 'Book saved successfully.');
     }
