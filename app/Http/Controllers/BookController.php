@@ -49,9 +49,9 @@ class BookController extends Controller
             'last_name' => 'required|string|max:40',
             'description' => 'required|string|min:3|max:1000',
             'publisher' => 'required|string|max:60',
-            'publication_date' => 'sometimes|date',
+            'publication_date' => 'sometimes',
             'category' => 'required|string|max:20',
-            'isbn' => 'sometimes|string|max:30',
+            'isbn' => 'sometimes|string|max:40',
             'page_count' => 'sometimes|int',
         ]);
 
