@@ -14,7 +14,7 @@ Route::get('/', [WelcomeController::class, 'show'])->name('welcome');
 Route::middleware('auth', 'verified')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard');
     Route::get('/book/{book}', [BookController::class, 'show'])->name('book.show');
-    Route::put('/books/{book}', [ManageBooksController::class, 'checkout'])->name('book.checkout');
+    Route::put('/book/{book}', [BookController::class, 'checkout'])->name('book.checkout');
     Route::post('/reviews', [ReviewController::class, 'store'])->name('review.store');
 
 });
@@ -22,8 +22,8 @@ Route::middleware('auth', 'verified')->group(function () {
 // Only allow access if user has librarian role
 Route::middleware('auth', 'verified', IsLibrarian::class)->group(function () {
     Route::get('/manage-books', [ManageBooksController::class, 'show'])->name('manage-books');
-    Route::put('/manage-books/{book}', [ManageBooksController::class, 'return'])->name('book.return');
-    Route::delete('/manage-books/{book}', [ManageBooksController::class, 'destroy'])->name('book.destroy');
+    Route::put('/book/{book}', [BookController::class, 'return'])->name('book.return');
+    Route::delete('/book/{book}', [BookController::class, 'destroy'])->name('book.destroy');
 });
 
 Route::middleware('auth')->group(function () {
