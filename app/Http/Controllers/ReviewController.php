@@ -22,10 +22,10 @@ class ReviewController extends Controller
 
         Review::updateOrCreate([
             'book_id' => $request->book_id,
-            'user_id' => $request->user()->id
+            'user_id' => $request->user()->id,
         ], [
             'review_text' => $request->review_text,
-            'rating' => $request->rating
+            'rating' => $request->rating,
         ]);
 
         return redirect()->route('dashboard')->with('success', 'Review saved successfully!');
