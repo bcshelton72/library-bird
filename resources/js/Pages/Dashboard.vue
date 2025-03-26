@@ -34,7 +34,7 @@ onMounted(() => {
 });
 
 const randomize = () => {
-        featured.value = props.books.sort((a, b) => 0.5 - Math.random()).slice(0, 5);
+    featured.value = props.books.sort((a, b) => 0.5 - Math.random()).slice(0, 5);
 }
 
 const confirm = useConfirm();
