@@ -3,9 +3,7 @@ import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import InputText from 'primevue/inputtext';
 import { useForm } from '@inertiajs/vue3';
-import Select from 'primevue/select';
 
 defineProps({
     roles: {

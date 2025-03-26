@@ -1,12 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import Button from 'primevue/button';
-import ConfirmDialog from 'primevue/confirmdialog';
 import InputError from '@/Components/InputError.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import Rating from 'primevue/rating';
-import Tag from 'primevue/tag';
-import Textarea from 'primevue/textarea';
 import { router, useForm } from "@inertiajs/vue3";
 import { useConfirm } from "primevue/useconfirm";
 

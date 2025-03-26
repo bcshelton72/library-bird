@@ -1,17 +1,8 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import Button from 'primevue/button';
-import ConfirmDialog from 'primevue/confirmdialog';
-import DatePicker from 'primevue/datepicker';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
-import InputText from 'primevue/inputtext';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import Rating from 'primevue/rating';
-import Tag from 'primevue/tag';
-import Textarea from 'primevue/textarea';
-import { router, useForm } from "@inertiajs/vue3";
-import { useConfirm } from "primevue/useconfirm";
+import { useForm } from "@inertiajs/vue3";
 
 const props = defineProps({
     book: Object,
@@ -53,7 +44,6 @@ const submit = (bookId) => {
                             @submit.prevent="form.post(route('book.store'))"
                             class="gap-6"
                         >
-
                             <div>
                                 <InputLabel for="cover_image" value="Cover Image" />
 
