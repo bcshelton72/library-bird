@@ -28,8 +28,12 @@ class BookController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function edit(?Book $book)
+    public function edit(Request $request, ?Book $book)
     {
+        if ($request->user()->cannot(isset($book->id) ? 'update_book' : 'create_book')) {
+            abort(403);
+        }
+
         return Inertia::render('Book/Edit', [
             'book' => optional($book)->load('author', 'category', 'publisher'),
         ]);
@@ -42,6 +46,10 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
+        if ($request->user()->cannot('update_book')) {
+            abort(403);
+        }
+
         $request->validate([
             'cover_image' => 'sometimes|max:300',
             'title' => 'required|string|max:300',
