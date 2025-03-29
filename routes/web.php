@@ -13,18 +13,18 @@ Route::get('/', [WelcomeController::class, 'show'])->name('welcome');
 
 Route::middleware('auth', 'verified')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard');
-    Route::get('/book/{book}', [BookController::class, 'show'])->name('book.show');
-    Route::put('/book-checkout/{book}', [BookController::class, 'checkout'])->name('book.checkout');
-    Route::post('/reviews', [ReviewController::class, 'store'])->name('review.store');
+    Route::get('/book/details/{book}', [BookController::class, 'show'])->name('book.show');
+    Route::put('/book/checkout/{book}', [BookController::class, 'checkout'])->name('book.checkout');
+    Route::post('/review/update', [ReviewController::class, 'store'])->name('review.store');
 });
 
 // Only allow access if user can manage books, by virtue of their role
 Route::middleware('auth', 'verified', CanManageBooks::class)->group(function () {
-    Route::get('/manage-books', [ManageBooksController::class, 'show'])->name('manage-books');
-    Route::put('/book-return/{book}', [BookController::class, 'return'])->name('book.return');
-    Route::delete('/book/{book}', [BookController::class, 'destroy'])->name('book.destroy');
-    Route::get('/edit-book/{book?}', [BookController::class, 'edit'])->name('book.edit');
-    Route::post('/edit-book', [BookController::class, 'store'])->name('book.store');
+    Route::get('/books/manage', [ManageBooksController::class, 'show'])->name('manage-books');
+    Route::put('/book/return/{book}', [BookController::class, 'return'])->name('book.return');
+    Route::delete('/book/delete/{book}', [BookController::class, 'destroy'])->name('book.destroy');
+    Route::get('/book/edit/{book?}', [BookController::class, 'edit'])->name('book.edit');
+    Route::post('/book/update', [BookController::class, 'store'])->name('book.store');
 });
 
 Route::middleware('auth')->group(function () {
