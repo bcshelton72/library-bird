@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import InputError from '@/Components/InputError.vue';
-import { router, useForm } from "@inertiajs/vue3";
+import { router, useForm, usePage } from "@inertiajs/vue3";
 import { useConfirm } from "primevue/useconfirm";
 
 
@@ -9,6 +9,8 @@ const props = defineProps({
     book: Object,
     review: Object,
 });
+
+const can = usePage().props.auth.permissions;
 
 const form = useForm({
     book_id: props.book.id,
@@ -99,9 +101,9 @@ const submit = (bookId) => {
                                 </div>
                             </div>
                             <div class="ml-10 mr-3 w-32">
-                                <Button v-if="book.available && $page.props.auth.permissions.checkout_book"
+                                <Button v-if="book.available && can.checkout_book"
                                     @click="checkoutBook(book.id)"  label="Check Out" size="small" type="button" class="mb-2 float-right" />
-                                <Button v-if="book.availability_date && $page.props.auth.permissions.return_book"
+                                <Button v-if="book.availability_date && can.return_book"
                                     @click="returnBook(book.id)" label="Return Book" size="small" type="button" class="mb-2 float-right" />
                                 <Link :href="route('dashboard')">
                                     <Button label="Back" size="small" class="float-right" />
@@ -111,7 +113,7 @@ const submit = (bookId) => {
                     </div>
                 </div>
 
-                <div v-if="$page.props.auth.permissions.create_review" class="overflow-hidden bg-white shadow-sm sm:rounded-lg mt-8">
+                <div v-if="can.create_review" class="overflow-hidden bg-white shadow-sm sm:rounded-lg mt-8">
                     <div class="p-6 text-gray-900">
                         <form
                             @submit.prevent="form.post(route('review.store'))"

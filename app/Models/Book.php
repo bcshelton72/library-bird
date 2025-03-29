@@ -39,7 +39,6 @@ class Book extends Model
     {
         return [
             'available' => 'boolean',
-            // 'availability_date' => 'datetime:M j, Y',
             'availability_date' => 'datetime:Y-m-j',
             'publication_date' => 'datetime:Y',
         ];

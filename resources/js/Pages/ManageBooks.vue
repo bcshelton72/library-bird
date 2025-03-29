@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import { router } from "@inertiajs/vue3";
+import { router, usePage } from "@inertiajs/vue3";
 import { FilterMatchMode } from '@primevue/core/api';
 import { useConfirm } from "primevue/useconfirm";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
@@ -9,6 +9,8 @@ const props = defineProps({
     books: Object,
     overdue_books: Object,
 });
+
+const can = usePage().props.auth.permissions;
 
 const overdue_filters = ref({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -90,7 +92,7 @@ const deleteBook = (bookId) => {
                     <Message severity="error">{{ $page.props.flash.error }}</Message>
                 </div>
 
-                <Link v-if="$page.props.auth.permissions.create_book" :href="route('book.edit')">
+                <Link v-if="can.create_book" :href="route('book.edit')">
                     <Button label="Add Book" size="small" />
                 </Link>
             </div>
@@ -153,7 +155,7 @@ const deleteBook = (bookId) => {
                             </Column>
                             <Column header="Actions" style="width: 12%">
                                 <template #body="{ data }">
-                                    <Button v-if="$page.props.auth.permissions.return_book"
+                                    <Button v-if="can.return_book"
                                         @click="returnBook(data.id)" label="Return Book" size="small" type="button" />
                                 </template>
                             </Column>
@@ -225,11 +227,11 @@ const deleteBook = (bookId) => {
                             </Column>
                             <Column header="Actions" style="width: 15%">
                                 <template #body="{ data }">
-                                    <Link v-if="$page.props.auth.permissions.update_book" :href="route('book.edit', data.id)">
+                                    <Link v-if="can.update_book" :href="route('book.edit', data.id)">
                                         <Button label="Update" size="small" severity="primary" class="mr-2" />
                                     </Link>
 
-                                    <Button v-if="$page.props.auth.permissions.delete_book"
+                                    <Button v-if="can.delete_book"
                                         @click="deleteBook(data.id)" label="Delete" size="small" severity="danger" type="button" />
                                 </template>
                             </Column>

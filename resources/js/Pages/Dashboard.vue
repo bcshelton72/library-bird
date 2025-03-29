@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { router } from "@inertiajs/vue3";
+import { router, usePage } from "@inertiajs/vue3";
 import { FilterMatchMode } from '@primevue/core/api';
 import { useConfirm } from "primevue/useconfirm";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
@@ -8,6 +8,8 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 const props = defineProps({
     books: Object,
 });
+
+const can = usePage().props.auth.permissions;
 
 const filters = ref({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -159,10 +161,10 @@ const returnBook = (bookId) => {
                             </Column>
                             <Column header="Actions" style="width: 12%">
                                 <template #body="{ data }">
-                                    <Button v-if="data.available && $page.props.auth.permissions.checkout_book"
+                                    <Button v-if="data.available && can.checkout_book"
                                         @click="checkoutBook(data.id)"  label="Check Out" size="small" type="button" />
 
-                                    <Button v-if="data.availability_date && $page.props.auth.permissions.return_book"
+                                    <Button v-if="data.availability_date && can.return_book"
                                         @click="returnBook(data.id)" label="Return Book" size="small" type="button" />
                                 </template>
                             </Column>
