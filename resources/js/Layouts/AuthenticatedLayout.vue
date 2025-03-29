@@ -42,7 +42,7 @@ const showingNavigationDropdown = ref(false);
                                     Dashboard
                                 </NavLink>
                                 <NavLink
-                                    v-if="can.checkout_books"
+                                    v-if="can.manage_books"
                                     :href="route('manage-books')"
                                     :active="route().current('manage-books')"
                                 >
