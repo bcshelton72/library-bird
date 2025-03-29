@@ -19,14 +19,14 @@ const filters = ref({
     available: { value: null, matchMode: FilterMatchMode.EQUALS },
 });
 
-// Randomize books to feature different ones each page load
+// Randomize books to feature different ones each page refresh or on button press
 const featured = ref([])
 onMounted(() => {
     randomize();
 });
 
 const randomize = () => {
-    featured.value = props.books.sort((a, b) => 0.5 - Math.random()).slice(0, 5);
+    props.books.sort((a, b) => 0.5 - Math.random());
 }
 
 const confirm = useConfirm();
