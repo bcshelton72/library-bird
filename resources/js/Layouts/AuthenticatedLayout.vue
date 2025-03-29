@@ -5,6 +5,9 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import { usePage } from "@inertiajs/vue3";
+
+const is = usePage().props.auth.roles;
 
 const showingNavigationDropdown = ref(false);
 </script>
@@ -39,7 +42,7 @@ const showingNavigationDropdown = ref(false);
                                     Dashboard
                                 </NavLink>
                                 <NavLink
-                                    v-if="$page.props.auth.roles.librarian"
+                                    v-if="is.librarian"
                                     :href="route('manage-books')"
                                     :active="route().current('manage-books')"
                                 >
