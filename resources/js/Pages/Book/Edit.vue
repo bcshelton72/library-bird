@@ -103,6 +103,7 @@ const submit = (bookId) => {
                                     label="Book Description"
                                     v-model="form.description"
                                     class="w-3/4 h-24"
+                                    required
                                 />
 
                                 <InputError class="mt-2" :message="form.errors.description" />
