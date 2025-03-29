@@ -20,9 +20,10 @@ class PermissionSeeder extends Seeder
 
         $librarianPermissions = [
             'create_book',
+            'delete_book',
+            'manage_books',
             'return_book',
             'update_book',
-            'delete_book',
         ];
 
         // Create permissions

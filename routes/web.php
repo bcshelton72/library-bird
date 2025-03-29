@@ -6,7 +6,7 @@ use App\Http\Controllers\ManageBooksController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\WelcomeController;
-use App\Http\Middleware\IsLibrarian;
+use App\Http\Middleware\CanManageBooks;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [WelcomeController::class, 'show'])->name('welcome');
@@ -18,8 +18,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('/reviews', [ReviewController::class, 'store'])->name('review.store');
 });
 
-// Only allow access if user has librarian role
-Route::middleware('auth', 'verified', IsLibrarian::class)->group(function () {
+// Only allow access if user can manage books, by virtue of their role
+Route::middleware('auth', 'verified', CanManageBooks::class)->group(function () {
     Route::get('/manage-books', [ManageBooksController::class, 'show'])->name('manage-books');
     Route::put('/book-return/{book}', [BookController::class, 'return'])->name('book.return');
     Route::delete('/book/{book}', [BookController::class, 'destroy'])->name('book.destroy');

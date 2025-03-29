@@ -14,7 +14,7 @@ class ManageBooksController extends Controller
      */
     public function show(Request $request): Response
     {
-        if (! $request->user()->hasRole('Librarian')) {
+        if ($request->user()->cannot('manage_books')) {
             abort(403);
         }
 

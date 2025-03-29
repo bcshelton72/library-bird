@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class IsLibrarian
+class CanManageBooks
 {
     /**
      * Handle an incoming request.
@@ -15,7 +15,7 @@ class IsLibrarian
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (! $request->user()->hasRole('Librarian')) {
+        if ($request->user()->cannot('manage_books')) {
             return redirect()->route('dashboard');
         }
 

@@ -35,15 +35,12 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
                 'permissions' => [
                     'checkout_book' => optional($request->user())->can('checkout_book'),
-                    'create_review' => optional($request->user())->can('create_review'),
                     'create_book' => optional($request->user())->can('create_book'),
+                    'create_review' => optional($request->user())->can('create_review'),
+                    'delete_book' => optional($request->user())->can('delete_book'),
+                    'manage_books' => optional($request->user())->can('manage_books'),
                     'return_book' => optional($request->user())->can('return_book'),
                     'update_book' => optional($request->user())->can('update_book'),
-                    'delete_book' => optional($request->user())->can('delete_book'),
-                ],
-                'roles' => [
-                    'customer' => optional($request->user())->hasRole('Customer'),
-                    'librarian' => optional($request->user())->hasRole('Librarian'),
                 ],
             ],
             'flash' => [

@@ -7,7 +7,7 @@ import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { usePage } from "@inertiajs/vue3";
 
-const is = usePage().props.auth.roles;
+const can = usePage().props.auth.permissions;
 
 const showingNavigationDropdown = ref(false);
 </script>
@@ -42,7 +42,7 @@ const showingNavigationDropdown = ref(false);
                                     Dashboard
                                 </NavLink>
                                 <NavLink
-                                    v-if="is.librarian"
+                                    v-if="can.checkout_books"
                                     :href="route('manage-books')"
                                     :active="route().current('manage-books')"
                                 >
