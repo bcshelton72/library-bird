@@ -1,20 +1,10 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { FilterMatchMode } from '@primevue/core/api';
+import { onMounted } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import BookCheckoutButton from '@/Components/BookCheckoutButton.vue';
-import BookReturnButton from '@/Components/BookReturnButton.vue';
+import BookCatalog from '@/Components/BookCatalog.vue';
 
 const props = defineProps({
     books: Object,
-});
-
-const filters = ref({
-    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    title: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    'author.first_name': { value: null, matchMode: FilterMatchMode.CONTAINS },
-    'author.last_name': { value: null, matchMode: FilterMatchMode.CONTAINS },
-    available: { value: null, matchMode: FilterMatchMode.EQUALS },
 });
 
 // Randomize books to feature different ones each page refresh or on button press
@@ -25,7 +15,6 @@ onMounted(() => {
 const randomize = () => {
     props.books.sort((a, b) => 0.5 - Math.random());
 }
-
 </script>
 <template>
     <Head title="Dashboard" />
@@ -53,72 +42,7 @@ const randomize = () => {
                     <div class="p-6 text-gray-900">
                         <h2 class="text-xl font-semibold">Book Catalog</h2>
                         <p>Enjoy this selection of featured books or search for any title or author.</p>
-                        <DataTable
-                            dataKey="id"
-                            v-model:filters="filters"
-                            :value="books" tableStyle="min-width: 50rem"
-                            paginator :rows="10" :rowsPerPageOptions="[10, 20, 50]"
-                            filterDisplay="menu"
-                            :globalFilterFields="['title', 'author.first_name', 'author.last_name']"
-                            removableSort
-                        >
-                            <template #header>
-                                <div class="flex justify-end">
-                                    <IconField>
-                                        <InputIcon>
-                                            <i class="pi pi-search" />
-                                        </InputIcon>
-                                        <InputText v-model="filters['global'].value" placeholder="Search all titles & authors" class="w-64" />
-                                    </IconField>
-                                </div>
-                            </template>
-                            <template #empty> No books found. </template>
-                            <template #loading> Loading books! Please wait. </template>
-                            <Column header="Cover">
-                                <template #body="slotProps">
-                                    <Link :href="route('book.show', slotProps.data.id)">
-                                        <img
-                                            :src="slotProps.data.cover_image
-                                                ? '/storage/' + slotProps.data.cover_image
-                                                : '/storage/cover_images/default/' + slotProps.data.id % 10 + '.png'"
-                                            :alt="slotProps.data.cover_image"
-                                            class="w-24
-                                            rounded"
-                                        />
-                                    </Link>
-                                </template>
-                            </Column>
-                            <Column field="title" header="Title" sortable>
-                                <template #body="{ data }">
-                                    <Link :href="route('book.show', data.id)">{{ data.title }}</Link>
-                                </template>
-                            </Column>
-                            <Column field="author.last_name" header="Author" sortable>
-                                <template #body="{ data }">
-                                    {{ data.author.first_name }} {{ data.author.last_name }}
-                                </template>
-                            </Column>
-                            <Column field="description" header="Description"></Column>
-                            <Column field="average_rating" header="Reviews">
-                                <template #body="slotProps">
-                                    <Rating :modelValue="slotProps.data.average_rating" readonly />
-                                </template>
-                            </Column>
-                            <Column field="available" header="Availability" filterField="available" dataType="boolean" style="width: 12%" sortable>
-                                <template #body="{ data }">
-                                    {{ data.availability_date ? data.availability_date : 'Checked In' }}
-                                </template>
-                                <template #filter="{ filterModel, filterCallback }">
-                                    <Checkbox v-model="filterModel.value" :indeterminate="filterModel.value === null" binary @change="filterCallback()" />
-                                </template>
-                            </Column>
-                            <Column header="Actions" style="width: 12%">
-                                <template #body="{ data }">
-                                    <BookCheckoutButton :available="data.available" :bookId="data.id" />
-                                    <BookReturnButton :availabilityDate="data.availability_date" :bookId="data.id" />
-                                </template>
-                            </Column>
-                        </DataTable>
+                        <BookCatalog :books="books" />
                     </div>
                 </div>
             </div>

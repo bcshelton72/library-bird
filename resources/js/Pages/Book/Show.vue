@@ -59,7 +59,7 @@ const submit = (bookId) => {
                             <div class="ml-10 mr-3 w-32">
                                 <BookCheckoutButton :available="book.available" :bookId="book.id" class="mb-2 float-right" />
                                 <BookReturnButton :availabilityDate="book.availability_date" :bookId="book.id" class="mb-2 float-right" />
-                                <Link :href="route('dashboard')">
+                                <Link :href="can.manage_books ? route('manage-books') : route('dashboard')">
                                     <Button label="Back" size="small" class="float-right" />
                                 </Link>
                             </div>
