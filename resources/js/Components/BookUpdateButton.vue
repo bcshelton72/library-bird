@@ -2,7 +2,7 @@
 import { usePage } from "@inertiajs/vue3";
 
 const props = defineProps({
-    bookId: String,
+    bookId: Number,
 });
 
 const can = usePage().props.auth.permissions;

@@ -4,7 +4,7 @@ import { useConfirm } from "primevue/useconfirm";
 
 const props = defineProps({
     availabilityDate: String,
-    bookId: String,
+    bookId: Number,
 });
 
 const can = usePage().props.auth.permissions;

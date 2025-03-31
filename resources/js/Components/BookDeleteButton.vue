@@ -3,7 +3,7 @@ import { router, usePage } from "@inertiajs/vue3";
 import { useConfirm } from "primevue/useconfirm";
 
 const props = defineProps({
-    bookId: String,
+    bookId: Number,
 });
 
 const can = usePage().props.auth.permissions;
