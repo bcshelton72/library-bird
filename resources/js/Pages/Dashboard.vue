@@ -18,7 +18,6 @@ const filters = ref({
 });
 
 // Randomize books to feature different ones each page refresh or on button press
-const featured = ref([])
 onMounted(() => {
     randomize();
 });

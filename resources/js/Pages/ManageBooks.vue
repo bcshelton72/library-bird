@@ -1,9 +1,9 @@
 <script setup>
 import { ref } from 'vue';
-import { router, usePage } from "@inertiajs/vue3";
+import { usePage } from "@inertiajs/vue3";
 import { FilterMatchMode } from '@primevue/core/api';
-import { useConfirm } from "primevue/useconfirm";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import BookDeleteButton from '@/Components/BookDeleteButton.vue';
 import BookReturnButton from '@/Components/BookReturnButton.vue';
 
 const props = defineProps({
@@ -27,31 +27,6 @@ const filters = ref({
     'author.last_name': { value: null, matchMode: FilterMatchMode.CONTAINS },
     available: { value: null, matchMode: FilterMatchMode.EQUALS },
 });
-
-const confirm = useConfirm();
-
-const deleteBook = (bookId) => {
-    confirm.require({
-        message: 'Warning! Are you sure you want to delete this book?',
-        header: 'Confirmation',
-        icon: 'pi pi-exclamation-triangle',
-        rejectProps: {
-            label: 'Cancel',
-            severity: 'secondary',
-            outlined: true
-        },
-        acceptProps: {
-            label: 'Yes Delete This Book',
-            severity: 'danger'
-        },
-        accept: () => {
-            router.delete(route("book.destroy", bookId));
-        },
-        reject: () => {
-            //
-        }
-    });
-};
 
 </script>
 <template>
@@ -209,9 +184,7 @@ const deleteBook = (bookId) => {
                                     <Link v-if="can.update_book" :href="route('book.edit', data.id)">
                                         <Button label="Update" size="small" severity="primary" class="mr-2" />
                                     </Link>
-
-                                    <Button v-if="can.delete_book"
-                                        @click="deleteBook(data.id)" label="Delete" size="small" severity="danger" type="button" />
+                                    <BookDeleteButton v-if="route().current() == 'manage-books'" :bookId="data.id" />
                                 </template>
                             </Column>
                         </DataTable>
