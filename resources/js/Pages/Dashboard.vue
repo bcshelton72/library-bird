@@ -161,10 +161,10 @@ const returnBook = (bookId) => {
                             </Column>
                             <Column header="Actions" style="width: 12%">
                                 <template #body="{ data }">
-                                    <Button v-if="data.available && can.checkout_book"
+                                    <Button v-if="can.checkout_book && data.available"
                                         @click="checkoutBook(data.id)"  label="Check Out" size="small" type="button" />
 
-                                    <Button v-if="data.availability_date && can.return_book"
+                                    <Button v-if="can.return_book && data.availability_date"
                                         @click="returnBook(data.id)" label="Return Book" size="small" type="button" />
                                 </template>
                             </Column>

@@ -101,9 +101,9 @@ const submit = (bookId) => {
                                 </div>
                             </div>
                             <div class="ml-10 mr-3 w-32">
-                                <Button v-if="book.available && can.checkout_book"
+                                <Button v-if="can.checkout_book && book.available"
                                     @click="checkoutBook(book.id)"  label="Check Out" size="small" type="button" class="mb-2 float-right" />
-                                <Button v-if="book.availability_date && can.return_book"
+                                <Button v-if="can.return_book && book.availability_date"
                                     @click="returnBook(book.id)" label="Return Book" size="small" type="button" class="mb-2 float-right" />
                                 <Link :href="route('dashboard')">
                                     <Button label="Back" size="small" class="float-right" />
