@@ -1,16 +1,13 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { router, usePage } from "@inertiajs/vue3";
 import { FilterMatchMode } from '@primevue/core/api';
-import { useConfirm } from "primevue/useconfirm";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import BookCheckoutButton from '@/Components/BookCheckoutButton.vue';
 import BookReturnButton from '@/Components/BookReturnButton.vue';
 
 const props = defineProps({
     books: Object,
 });
-
-const can = usePage().props.auth.permissions;
 
 const filters = ref({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -29,29 +26,6 @@ onMounted(() => {
 const randomize = () => {
     props.books.sort((a, b) => 0.5 - Math.random());
 }
-
-const confirm = useConfirm();
-
-const checkoutBook = (bookId) => {
-    confirm.require({
-        message: 'Are you sure you want to check out this book?',
-        header: 'Confirmation',
-        rejectProps: {
-            label: 'No thanks',
-            severity: 'secondary',
-            outlined: true
-        },
-        acceptProps: {
-            label: 'Yes it looks great!'
-        },
-        accept: () => {
-            router.put(route("book.checkout", bookId));
-        },
-        reject: () => {
-            //
-        }
-    });
-};
 
 </script>
 <template>
@@ -141,9 +115,7 @@ const checkoutBook = (bookId) => {
                             </Column>
                             <Column header="Actions" style="width: 12%">
                                 <template #body="{ data }">
-                                    <Button v-if="can.checkout_book && data.available"
-                                        @click="checkoutBook(data.id)"  label="Check Out" size="small" type="button" />
-
+                                    <BookCheckoutButton :available="data.available" :bookId="data.id" />
                                     <BookReturnButton :availabilityDate="data.availability_date" :bookId="data.id" />
                                 </template>
                             </Column>

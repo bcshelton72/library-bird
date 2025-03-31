@@ -1,10 +1,9 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import InputError from '@/Components/InputError.vue';
-import { router, useForm, usePage } from "@inertiajs/vue3";
-import { useConfirm } from "primevue/useconfirm";
+import { useForm, usePage } from "@inertiajs/vue3";
+import BookCheckoutButton from '@/Components/BookCheckoutButton.vue';
 import BookReturnButton from '@/Components/BookReturnButton.vue';
-
 
 const props = defineProps({
     book: Object,
@@ -18,29 +17,6 @@ const form = useForm({
     review_text: props.review?.review_text,
     rating: props.review?.rating,
 });
-
-const confirm = useConfirm();
-
-const checkoutBook = (bookId) => {
-    confirm.require({
-        message: 'Are you sure you want to check out this book?',
-        header: 'Confirmation',
-        rejectProps: {
-            label: 'No thanks',
-            severity: 'secondary',
-            outlined: true
-        },
-        acceptProps: {
-            label: 'Yes it looks great!'
-        },
-        accept: () => {
-            router.put(route("book.checkout", bookId));
-        },
-        reject: () => {
-            //
-        }
-    });
-};
 
 const submit = (bookId) => {
     form.book_id = bookId;
@@ -81,8 +57,7 @@ const submit = (bookId) => {
                                 </div>
                             </div>
                             <div class="ml-10 mr-3 w-32">
-                                <Button v-if="can.checkout_book && book.available"
-                                    @click="checkoutBook(book.id)"  label="Check Out" size="small" type="button" class="mb-2 float-right" />
+                                <BookCheckoutButton :available="book.available" :bookId="book.id" class="mb-2 float-right" />
                                 <BookReturnButton :availabilityDate="book.availability_date" :bookId="book.id" class="mb-2 float-right" />
                                 <Link :href="route('dashboard')">
                                     <Button label="Back" size="small" class="float-right" />
