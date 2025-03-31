@@ -20,7 +20,7 @@ Route::middleware('auth', 'verified')->group(function () {
 
 // Only allow access if user can manage books, by virtue of their role
 Route::middleware('auth', 'verified', CanManageBooks::class)->group(function () {
-    Route::get('/books/manage', [ManageBooksController::class, 'show'])->name('manage-books');
+    Route::get('/books/manage', [ManageBooksController::class, 'show'])->name('books.manage');
     Route::put('/book/return/{book}', [BookController::class, 'return'])->name('book.return');
     Route::delete('/book/delete/{book}', [BookController::class, 'destroy'])->name('book.destroy');
     Route::get('/book/edit/{book?}', [BookController::class, 'edit'])->name('book.edit');

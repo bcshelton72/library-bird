@@ -43,8 +43,8 @@ const showingNavigationDropdown = ref(false);
                                 </NavLink>
                                 <NavLink
                                     v-if="can.manage_books"
-                                    :href="route('manage-books')"
-                                    :active="route().current('manage-books')"
+                                    :href="route('books.manage')"
+                                    :active="route().current('books.manage')"
                                 >
                                     Manage Books
                                 </NavLink>

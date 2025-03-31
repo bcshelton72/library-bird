@@ -106,7 +106,7 @@ class BookController extends Controller
             Book::create($data);
         }
 
-        return redirect()->route('manage-books')->with('success', 'Book saved successfully.');
+        return redirect()->route('books.manage')->with('success', 'Book saved successfully.');
     }
 
     /**
@@ -134,7 +134,7 @@ class BookController extends Controller
 
         $book->return();
 
-        return redirect()->route('manage-books')->with('success', 'The book was successfully returned.');
+        return redirect()->route('books.manage')->with('success', 'The book was successfully returned.');
     }
 
     /**
@@ -152,6 +152,6 @@ class BookController extends Controller
 
         $book->delete();
 
-        return redirect()->route('manage-books')->with('success', 'The book was successfully deleted.');
+        return redirect()->route('books.manage')->with('success', 'The book was successfully deleted.');
     }
 }

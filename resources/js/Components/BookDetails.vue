@@ -56,7 +56,7 @@ const submit = (bookId) => {
                         <BookCheckoutButton :available="book.available" :bookId="book.id" class="mb-2 float-right" />
                         <BookReturnButton :availabilityDate="book.availability_date" :bookId="book.id" class="mb-2 float-right" />
                         <BookUpdateButton v-if="route().current() == 'book.show'" :bookId="book.id" class="mb-2 ml-12 float-right" />
-                        <Link :href="can.manage_books ? route('manage-books') : route('dashboard')">
+                        <Link :href="can.manage_books ? route('books.manage') : route('dashboard')">
                             <Button label="Back" size="small" class="float-right" />
                         </Link>
                     </div>

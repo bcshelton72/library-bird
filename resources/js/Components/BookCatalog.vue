@@ -91,8 +91,8 @@ const filters = ref({
                 </span>
                 <span v-else>
                     <BookReturnButton v-if="route().current() == 'dashboard'" :availabilityDate="data.availability_date" :bookId="data.id" />
-                    <BookUpdateButton v-if="route().current() == 'manage-books'" :bookId="data.id" class="mr-2" />
-                    <BookDeleteButton v-if="route().current() == 'manage-books'" :bookId="data.id" />
+                    <BookUpdateButton v-if="route().current() == 'books.manage'" :bookId="data.id" class="mr-2" />
+                    <BookDeleteButton v-if="route().current() == 'books.manage'" :bookId="data.id" />
                 </span>
             </template>
         </Column>
