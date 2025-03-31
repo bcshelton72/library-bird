@@ -10,6 +10,6 @@ const can = usePage().props.auth.permissions;
 
 <template>
     <Link v-if="can.update_book" :href="route('book.edit', bookId)">
-        <Button label="Update" size="small" severity="primary" class="mr-2" />
+        <Button label="Update" size="small" severity="primary" />
     </Link>
 </template>

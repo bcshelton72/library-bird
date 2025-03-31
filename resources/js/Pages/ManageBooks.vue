@@ -1,10 +1,7 @@
 <script setup>
-import { ref } from 'vue';
 import { usePage } from "@inertiajs/vue3";
-import { FilterMatchMode } from '@primevue/core/api';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import BookCatalog from '@/Components/BookCatalog.vue';
-import BookReturnButton from '@/Components/BookReturnButton.vue';
 
 const props = defineProps({
     books: Object,
@@ -12,13 +9,6 @@ const props = defineProps({
 });
 
 const can = usePage().props.auth.permissions;
-
-const overdue_filters = ref({
-    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    title: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    'author.first_name': { value: null, matchMode: FilterMatchMode.CONTAINS },
-    'author.last_name': { value: null, matchMode: FilterMatchMode.CONTAINS },
-});
 
 </script>
 <template>
@@ -54,7 +44,7 @@ const overdue_filters = ref({
                     </div>
                 </div>
 
-                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg mt-12">
+                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg mt-8">
                     <div class="p-6 text-gray-900">
                         <h2 class="text-xl font-semibold">Manage Book Catalog</h2>
                         <BookCatalog :books="books" />

@@ -2,11 +2,14 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
-import { useForm } from "@inertiajs/vue3";
+import { useForm, usePage } from "@inertiajs/vue3";
+import BookDetails from '@/Components/BookDetails.vue';
 
 const props = defineProps({
     book: Object,
 });
+
+const can = usePage().props.auth.permissions;
 
 const form = useForm({
     id: props.book.id,
@@ -36,7 +39,9 @@ const submit = (bookId) => {
     <Head title="Dashboard" />
     <AuthenticatedLayout>
         <ConfirmDialog></ConfirmDialog>
-        <div class="pb-12">
+        <div class="pb-8">
+            <BookDetails v-if="book.id" :book="book" />
+
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg mt-8">
                     <div class="p-6 text-gray-900">
