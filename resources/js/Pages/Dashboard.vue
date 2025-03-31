@@ -4,6 +4,7 @@ import { router, usePage } from "@inertiajs/vue3";
 import { FilterMatchMode } from '@primevue/core/api';
 import { useConfirm } from "primevue/useconfirm";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import BookReturnButton from '@/Components/BookReturnButton.vue';
 
 const props = defineProps({
     books: Object,
@@ -45,27 +46,6 @@ const checkoutBook = (bookId) => {
         },
         accept: () => {
             router.put(route("book.checkout", bookId));
-        },
-        reject: () => {
-            //
-        }
-    });
-};
-
-const returnBook = (bookId) => {
-    confirm.require({
-        message: 'Are you sure you want to return this book?',
-        header: 'Confirmation',
-        rejectProps: {
-            label: 'Cancel',
-            severity: 'secondary',
-            outlined: true
-        },
-        acceptProps: {
-            label: 'Yes Mark As Returned'
-        },
-        accept: () => {
-            router.put(route("book.return", bookId));
         },
         reject: () => {
             //
@@ -164,8 +144,7 @@ const returnBook = (bookId) => {
                                     <Button v-if="can.checkout_book && data.available"
                                         @click="checkoutBook(data.id)"  label="Check Out" size="small" type="button" />
 
-                                    <Button v-if="can.return_book && data.availability_date"
-                                        @click="returnBook(data.id)" label="Return Book" size="small" type="button" />
+                                    <BookReturnButton :availabilityDate="data.availability_date" :bookId="data.id" />
                                 </template>
                             </Column>
                         </DataTable>

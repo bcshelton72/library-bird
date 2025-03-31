@@ -3,6 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import InputError from '@/Components/InputError.vue';
 import { router, useForm, usePage } from "@inertiajs/vue3";
 import { useConfirm } from "primevue/useconfirm";
+import BookReturnButton from '@/Components/BookReturnButton.vue';
 
 
 const props = defineProps({
@@ -34,27 +35,6 @@ const checkoutBook = (bookId) => {
         },
         accept: () => {
             router.put(route("book.checkout", bookId));
-        },
-        reject: () => {
-            //
-        }
-    });
-};
-
-const returnBook = (bookId) => {
-    confirm.require({
-        message: 'Are you sure you want to return this book?',
-        header: 'Confirmation',
-        rejectProps: {
-            label: 'Cancel',
-            severity: 'secondary',
-            outlined: true
-        },
-        acceptProps: {
-            label: 'Yes Mark As Returned'
-        },
-        accept: () => {
-            router.put(route("book.return", bookId));
         },
         reject: () => {
             //
@@ -103,8 +83,7 @@ const submit = (bookId) => {
                             <div class="ml-10 mr-3 w-32">
                                 <Button v-if="can.checkout_book && book.available"
                                     @click="checkoutBook(book.id)"  label="Check Out" size="small" type="button" class="mb-2 float-right" />
-                                <Button v-if="can.return_book && book.availability_date"
-                                    @click="returnBook(book.id)" label="Return Book" size="small" type="button" class="mb-2 float-right" />
+                                <BookReturnButton :availabilityDate="book.availability_date" :bookId="book.id" class="mb-2 float-right" />
                                 <Link :href="route('dashboard')">
                                     <Button label="Back" size="small" class="float-right" />
                                 </Link>
