@@ -3,7 +3,6 @@ import { router, usePage } from "@inertiajs/vue3";
 import { useConfirm } from "primevue/useconfirm";
 
 const props = defineProps({
-    availabilityDate: String,
     bookId: String,
 });
 

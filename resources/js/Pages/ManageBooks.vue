@@ -5,6 +5,7 @@ import { FilterMatchMode } from '@primevue/core/api';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import BookDeleteButton from '@/Components/BookDeleteButton.vue';
 import BookReturnButton from '@/Components/BookReturnButton.vue';
+import BookUpdateButton from '@/Components/BookUpdateButton.vue';
 
 const props = defineProps({
     books: Object,
@@ -181,9 +182,7 @@ const filters = ref({
                             </Column>
                             <Column header="Actions" style="width: 15%">
                                 <template #body="{ data }">
-                                    <Link v-if="can.update_book" :href="route('book.edit', data.id)">
-                                        <Button label="Update" size="small" severity="primary" class="mr-2" />
-                                    </Link>
+                                    <BookUpdateButton v-if="route().current() == 'manage-books'" :bookId="data.id" />
                                     <BookDeleteButton v-if="route().current() == 'manage-books'" :bookId="data.id" />
                                 </template>
                             </Column>
